@@ -2,7 +2,7 @@
   "base_url": "https://richbot.btacode.com",
   "username": "admin",
   "password": "Welcome@1",
-  "openai_api_key": "sk-proj---asd",
+  "openai_api_key": "",
   "ai_testgen": {
     "feature": "login",
     "count": 3

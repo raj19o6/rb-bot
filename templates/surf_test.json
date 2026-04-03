@@ -1,0 +1,10 @@
+{
+  "name": "surf_test",
+  "description": "Full site surf — crawl all routes, scrape elements, fingerprint pages, map forms and assets",
+  "surf": {
+    "max_depth": 3,
+    "max_routes": 50,
+    "screenshot": true,
+    "security": ["headers", "xss", "sqli"]
+  }
+}

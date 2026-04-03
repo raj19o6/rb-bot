@@ -1,0 +1,12 @@
+{
+  "name": "login_test",
+  "steps": [
+    { "action": "goto",  "url": "{{base_url}}/login" },
+    { "action": "fill",  "selector": "#username", "value": "{{username}}" },
+    { "action": "fill",  "selector": "#password", "value": "{{password}}" },
+    { "action": "click", "selector": "[type='submit']" }
+  ],
+  "validations": [
+    { "type": "url_contains", "value": "/dashboard" }
+  ]
+}

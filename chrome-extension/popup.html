@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #6366f1;
+    }
+
+    .status {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .recording {
+      background: #fee;
+      color: #c00;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .idle {
+      background: #efe;
+      color: #060;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .record-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    .stop-btn {
+      background: #6366f1;
+      color: white;
+    }
+
+    .login-form {
+      display: none;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    .info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">🤖 RB-BOT</div>
+  </div>
+
+  <div id="loginSection" class="login-form">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+  </div>
+
+  <div id="recorderSection" style="display:none;">
+    <div id="status" class="status idle">
+      Ready to record
+    </div>
+
+    <button id="recordBtn" class="record-btn">
+      🎬 Start Recording
+    </button>
+
+    <button id="stopBtn" class="stop-btn" style="display:none;">
+      ⏹️ Stop Recording
+    </button>
+
+    <div class="info">
+      <div id="actionCount">Actions: 0</div>
+      <div id="workflowName" style="margin-top: 10px;">
+        <input type="text" id="workflowNameInput" placeholder="Workflow name" style="width: 100%;">
+      </div>
+      <div id="userInfo"></div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

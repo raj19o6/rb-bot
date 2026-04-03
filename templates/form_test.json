@@ -1,0 +1,13 @@
+{
+  "name": "form_test",
+  "steps": [
+    { "action": "goto",  "url": "{{base_url}}/contact" },
+    { "action": "fill",  "selector": "#name",    "value": "{{username}}" },
+    { "action": "fill",  "selector": "#email",   "value": "test@example.com" },
+    { "action": "fill",  "selector": "#message", "value": "Hello from bot" },
+    { "action": "click", "selector": "#submitBtn" }
+  ],
+  "validations": [
+    { "type": "text_present", "value": "Thank you" }
+  ]
+}

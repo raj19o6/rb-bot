@@ -1,0 +1,9 @@
+{
+  "name": "xss_test",
+  "steps": [
+    { "action": "goto", "url": "{{base_url}}/search" }
+  ],
+  "validations": [
+    { "type": "element_visible", "selector": "input" }
+  ]
+}

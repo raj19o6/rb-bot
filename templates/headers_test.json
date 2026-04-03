@@ -1,0 +1,8 @@
+{
+  "name": "headers_test",
+  "steps": [
+    { "action": "goto", "url": "{{base_url}}" }
+  ],
+  "validations": [],
+  "security": ["headers"]
+}

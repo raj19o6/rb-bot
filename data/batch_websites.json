@@ -1,0 +1,21 @@
+{
+  "openai_api_key": "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",
+  "websites": [
+    {
+      "name": "OnTime App",
+      "base_url": "https://ontime.humbingo.in/signin",
+      "credentials": {
+        "username": "admin",
+        "password": "Welcome@1"
+      }
+    },
+    {
+      "name": "RichBot",
+      "base_url": "https://richbot.btacode.com",
+      "credentials": {
+        "username": "admin",
+        "password": "Welcome@1"
+      }
+    }
+  ]
+}

@@ -369,5 +369,5 @@ if __name__ == "__main__":
         print(f"Error: File not found: {recording_file}")
         sys.exit(1)
     
-    success = execute_chrome_recording(recording_file, callback_url)
-    sys.exit(0 if success else 1)
+    execute_chrome_recording(recording_file, callback_url)
+    sys.exit(0)

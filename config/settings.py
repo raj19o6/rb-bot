@@ -1,5 +1,5 @@
 BROWSER = "chromium"
-HEADLESS = False
+HEADLESS = True
 TIMEOUT = 10000  # ms
 SLOW_MO = 50
 SCREENSHOTS = True

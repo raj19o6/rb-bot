@@ -70,7 +70,7 @@ function login() {
   btn.textContent = 'Signing in...';
   btn.disabled = true;
 
-  fetch('http://192.168.69.58:8000/auth/token/', {
+  fetch('https://lknpz8c6-8000.inc1.devtunnels.ms/auth/token/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password: password })
@@ -266,7 +266,7 @@ async function stopRecording() {
           try {
             showToast('Uploading to server...', 'info');
 
-            const response = await fetch('https://8nh48kbv-8000.inc1.devtunnels.ms/api/v1/workflows/save/', {
+            const response = await fetch('https://lknpz8c6-8000.inc1.devtunnels.ms/api/v1/workflows/save/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

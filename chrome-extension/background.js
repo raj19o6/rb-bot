@@ -1,6 +1,6 @@
 // Background script - Handles API communication
 
-const API_URL = 'http://192.168.69.58:8000'; // Your API endpoint
+const API_URL = 'https://lknpz8c6-8000.inc1.devtunnels.ms';
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

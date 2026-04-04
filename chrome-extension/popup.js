@@ -1,12 +1,15 @@
 // Popup script - Manifest V3 compatible
+const API_BASE = 'https://api-richbot.btacode.com';
+
 let isRecording = false;
 let sessionId = null;
 let recordingTab = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  chrome.storage.local.get(['authToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName'], (result) => {
+  chrome.storage.local.get(['authToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName', 'selectedBotId', 'selectedBotName'], (result) => {
     if (result.authToken) {
       showRecorder(result.user);
+      fetchBots(result.authToken);
 
       if (result.isRecording) {
         isRecording = true;
@@ -29,6 +32,36 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('stopBtn').addEventListener('click', stopRecording);
   document.getElementById('logoutBtn').addEventListener('click', logout);
 });
+
+function fetchBots(token) {
+  fetch(`${API_BASE}/api/v1/bot/`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+    .then(r => r.json())
+    .then(data => {
+      const bots = Array.isArray(data) ? data : (data.results || []);
+      const select = document.getElementById('botSelect');
+      select.innerHTML = '<option value="">-- Select Bot --</option>';
+      bots.forEach(bot => {
+        const opt = document.createElement('option');
+        opt.value = bot.id;
+        opt.textContent = bot.name;
+        select.appendChild(opt);
+      });
+      // Restore previously selected bot
+      chrome.storage.local.get('selectedBotId', (r) => {
+        if (r.selectedBotId) select.value = r.selectedBotId;
+      });
+      select.addEventListener('change', () => {
+        const selected = select.options[select.selectedIndex];
+        chrome.storage.local.set({
+          selectedBotId: selected.value,
+          selectedBotName: selected.textContent
+        });
+      });
+    })
+    .catch(() => showToast('Could not load bots', 'error'));
+}
 
 function showLogin() {
   document.getElementById('loginSection').style.display = 'block';
@@ -70,7 +103,7 @@ function login() {
   btn.textContent = 'Signing in...';
   btn.disabled = true;
 
-  fetch('https://lknpz8c6-8000.inc1.devtunnels.ms/auth/token/', {
+  fetch(`${API_BASE}/auth/token/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password: password })
@@ -79,7 +112,6 @@ function login() {
       if (!response.ok) throw new Error('Invalid credentials');
       return response.json();
     })
-    .then(data => data)
     .then(data => {
       const tokenParts = data.access.split('.');
       const payload = JSON.parse(atob(tokenParts[1]));
@@ -88,7 +120,10 @@ function login() {
         authToken: data.access,
         refreshToken: data.refresh,
         user: user
-      }, () => showRecorder(user));
+      }, () => {
+        showRecorder(user);
+        fetchBots(data.access);
+      });
     })
     .catch(error => {
       showToast('Login failed: ' + error.message, 'error');
@@ -100,8 +135,16 @@ function login() {
 
 async function startRecording() {
   const workflowName = document.getElementById('workflowNameInput').value || 'Untitled Workflow';
-  sessionId = 'session_' + Date.now();
+  const botSelect = document.getElementById('botSelect');
+  const botId = botSelect ? botSelect.value : '';
+  const botName = botSelect ? botSelect.options[botSelect.selectedIndex]?.textContent : '';
 
+  if (!botId) {
+    showToast('Please select a bot before recording', 'error');
+    return;
+  }
+
+  sessionId = 'session_' + Date.now();
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   recordingTab = tab.id;
 
@@ -109,7 +152,9 @@ async function startRecording() {
     isRecording: true,
     sessionId: sessionId,
     recordingTab: tab.id,
-    workflowName: workflowName
+    workflowName: workflowName,
+    selectedBotId: botId,
+    selectedBotName: botName
   });
 
   try {
@@ -249,15 +294,16 @@ async function stopRecording() {
     showToast(`Recorded ${actions.length} actions`, 'info');
 
     if (actions.length > 0) {
-      const recording = {
-        workflowName: workflowName,
-        sessionId: sessionId,
-        actions: actions,
-        recordedAt: new Date().toISOString(),
-        actionCount: actions.length
-      };
+      chrome.storage.local.get(['recordings', 'authToken', 'selectedBotId', 'selectedBotName'], async (result) => {
+        const recording = {
+          workflowName: workflowName,
+          sessionId: sessionId,
+          actions: actions,
+          recordedAt: new Date().toISOString(),
+          actionCount: actions.length,
+          botId: result.selectedBotId || null
+        };
 
-      chrome.storage.local.get(['recordings', 'authToken'], async (result) => {
         const recordings = result.recordings || [];
         recordings.push(recording);
         chrome.storage.local.set({ recordings: recordings });
@@ -266,7 +312,7 @@ async function stopRecording() {
           try {
             showToast('Uploading to server...', 'info');
 
-            const response = await fetch('https://api-richbot.btacode.com/api/v1/workflows/save/', {
+            const response = await fetch(`${API_BASE}/api/v1/workflows/save/`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -277,8 +323,12 @@ async function stopRecording() {
 
             if (response.ok) {
               const data = await response.json();
-              showToast(`✅ Saved! ID: ${(data.workflow_id || data.id || '').toString().slice(0, 8)}...`, 'success');
+              showToast(`✅ Saved! Bot: ${data.bot_name || 'N/A'}`, 'success');
               console.log('Workflow saved:', data);
+            } else if (response.status === 401) {
+              showToast('Session expired. Please login again.', 'error');
+              chrome.storage.local.remove(['authToken', 'refreshToken']);
+              showLogin();
             } else {
               showToast(`Upload failed (${response.status}), downloading...`, 'error');
               downloadJSON(recording);

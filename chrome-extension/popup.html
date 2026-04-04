@@ -244,10 +244,21 @@
       text-align: center;
     }
 
-    /* ── Workflow Input ── */
-    .workflow-input-wrap {
-      margin-bottom: 12px;
+    select {
+      width: 100%;
+      padding: 9px 12px;
+      background: #1a1a24;
+      border: 1px solid #2d2d3d;
+      border-radius: 7px;
+      color: #e2e8f0;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+      cursor: pointer;
     }
+
+    select:focus { border-color: #6366f1; }
+    select option { background: #1a1a24; }
 
     /* ── Divider ── */
     .divider {
@@ -358,6 +369,14 @@
       <div id="statusDot" class="status-dot dot-idle"></div>
       <div class="status-text" id="statusText"><strong>Ready</strong> to record</div>
       <div class="counter-pill" id="actionCount">0</div>
+    </div>
+
+    <!-- Bot Selector -->
+    <div class="workflow-input-wrap">
+      <div class="input-group">
+        <label>Select Bot</label>
+        <select id="botSelect"></select>
+      </div>
     </div>
 
     <!-- Workflow Name -->

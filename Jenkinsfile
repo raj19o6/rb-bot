@@ -48,7 +48,22 @@ pipeline {
             steps {
                 echo "Downloading workflow from ${params.WORKFLOW_JSON_URL}"
                 sh '''
-                    curl -f -o workflow.json "${WORKFLOW_JSON_URL}"
+                    echo "Testing connection to backend..."
+                    curl -I "${WORKFLOW_JSON_URL}" --connect-timeout 10 --max-time 30 || {
+                        echo "ERROR: Cannot reach backend API at ${WORKFLOW_JSON_URL}"
+                        echo "Please ensure:"
+                        echo "1. Backend is running"
+                        echo "2. Jenkins can access the backend URL"
+                        echo "3. Firewall allows Jenkins -> Backend communication"
+                        exit 1
+                    }
+                    
+                    echo "Downloading workflow JSON..."
+                    curl -f -o workflow.json "${WORKFLOW_JSON_URL}" --connect-timeout 10 --max-time 30 || {
+                        echo "ERROR: Failed to download workflow JSON"
+                        exit 1
+                    }
+                    
                     echo "Workflow downloaded successfully"
                     echo "Workflow content:"
                     cat workflow.json | head -20

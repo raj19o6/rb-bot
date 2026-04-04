@@ -6,7 +6,7 @@ let sessionId = null;
 let recordingTab = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  chrome.storage.local.get(['authToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName', 'selectedBotId', 'selectedBotName'], (result) => {
+  chrome.storage.local.get(['authToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName', 'selectedBotId'], (result) => {
     if (result.authToken) {
       showRecorder(result.user);
       fetchBots();
@@ -15,12 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         isRecording = true;
         sessionId = result.sessionId;
         recordingTab = result.recordingTab;
-
         if (result.workflowName) {
           document.getElementById('workflowNameInput').value = result.workflowName;
         }
-
         updateUI();
+        startCounterPoll();
       }
     } else {
       showLogin();
@@ -33,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('logoutBtn').addEventListener('click', logout);
 });
 
+// ── Bot dropdown ─────────────────────────────────────────────────
 function fetchBots() {
   chrome.runtime.sendMessage({ action: 'fetchBots' }, (response) => {
     if (!response?.success) {
@@ -53,14 +53,12 @@ function fetchBots() {
     });
     select.addEventListener('change', () => {
       const selected = select.options[select.selectedIndex];
-      chrome.storage.local.set({
-        selectedBotId: selected.value,
-        selectedBotName: selected.textContent
-      });
+      chrome.storage.local.set({ selectedBotId: selected.value, selectedBotName: selected.textContent });
     });
   });
 }
 
+// ── Auth ─────────────────────────────────────────────────────────
 function showLogin() {
   document.getElementById('loginSection').style.display = 'block';
   document.getElementById('recorderSection').style.display = 'none';
@@ -74,18 +72,9 @@ function showRecorder(user) {
 }
 
 function logout() {
-  chrome.storage.local.remove(['authToken', 'refreshToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName'], () => {
+  chrome.storage.local.remove(['authToken', 'refreshToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName', 'rbBotActions'], () => {
     showLogin();
   });
-}
-
-function showToast(message, type = 'info', section = 'recorder') {
-  const toast = document.getElementById(section === 'login' ? 'loginToast' : 'recorderToast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.className = `toast toast-${type}`;
-  toast.style.display = 'block';
-  setTimeout(() => { toast.style.display = 'none'; }, 3500);
 }
 
 function login() {
@@ -111,31 +100,26 @@ function login() {
       return response.json();
     })
     .then(data => {
-      const tokenParts = data.access.split('.');
-      const payload = JSON.parse(atob(tokenParts[1]));
+      const payload = JSON.parse(atob(data.access.split('.')[1]));
       const user = { email: email, userId: payload.user_id };
-      chrome.storage.local.set({
-        authToken: data.access,
-        refreshToken: data.refresh,
-        user: user
-      }, () => {
+      chrome.storage.local.set({ authToken: data.access, refreshToken: data.refresh, user }, () => {
         showRecorder(user);
         fetchBots();
       });
     })
     .catch(error => {
       showToast('Login failed: ' + error.message, 'error', 'login');
-      const btn = document.getElementById('loginBtn');
-      btn.innerHTML = '<span>🔐</span> Sign In';
+      btn.textContent = 'Sign In';
       btn.disabled = false;
     });
 }
 
+// ── Recording ────────────────────────────────────────────────────
 async function startRecording() {
   const workflowName = document.getElementById('workflowNameInput').value || 'Untitled Workflow';
   const botSelect = document.getElementById('botSelect');
-  const botId = botSelect ? botSelect.value : '';
-  const botName = botSelect ? botSelect.options[botSelect.selectedIndex]?.textContent : '';
+  const botId = botSelect?.value;
+  const botName = botSelect?.options[botSelect.selectedIndex]?.textContent;
 
   if (!botId) {
     showToast('Please select a bot before recording', 'error', 'recorder');
@@ -144,7 +128,7 @@ async function startRecording() {
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (!tab || !tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('about:')) {
+  if (!tab?.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('about:')) {
     showToast('Navigate to a website first, then start recording', 'error', 'recorder');
     return;
   }
@@ -154,200 +138,88 @@ async function startRecording() {
 
   chrome.storage.local.set({
     isRecording: true,
-    sessionId: sessionId,
+    sessionId,
     recordingTab: tab.id,
-    workflowName: workflowName,
+    workflowName,
     selectedBotId: botId,
-    selectedBotName: botName
+    selectedBotName: botName,
+    rbBotActions: []
   });
 
-  try {
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: (sid) => {
-        window.rbBotRecording = true;
-        window.rbBotActions = [];
-        window.rbBotSessionId = sid;
-        window.rbBotInputTimers = {};
-        window.rbBotLastClick = null;
-
-        console.log('RB-BOT: Recording started!');
-
-        const indicator = document.createElement('div');
-        indicator.id = 'rb-bot-indicator';
-        indicator.style.cssText = `
-          position: fixed; top: 10px; right: 10px;
-          background: #ef4444; color: white;
-          padding: 12px 24px; border-radius: 8px;
-          z-index: 2147483647; font-family: Arial;
-          font-weight: bold; font-size: 14px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        `;
-        indicator.innerHTML = 'Recording...';
-        document.body.appendChild(indicator);
-
-        function getSmartSelector(element) {
-          if (element.id) return '#' + element.id;
-          if (element.name) return '[name="' + element.name + '"]';
-          if (element.getAttribute('data-testid')) return '[data-testid="' + element.getAttribute('data-testid') + '"]';
-          if (element.getAttribute('aria-label')) return '[aria-label="' + element.getAttribute('aria-label') + '"]';
-          if (element.tagName === 'INPUT' && element.placeholder) return 'input[placeholder="' + element.placeholder + '"]';
-          if (element.tagName === 'BUTTON' && element.textContent) {
-            const text = element.textContent.trim();
-            if (text.length > 0 && text.length < 50) return 'button:has-text("' + text + '")';
-          }
-          if (element.className && typeof element.className === 'string') {
-            const classes = element.className.split(' ').filter(c => c && !c.includes('[') && !c.includes('&') && c.length < 30).slice(0, 2);
-            if (classes.length > 0) return element.tagName.toLowerCase() + '.' + classes.join('.');
-          }
-          return element.tagName.toLowerCase();
-        }
-
-        document.addEventListener('click', function (e) {
-          if (!window.rbBotRecording) return;
-
-          const target = e.target;
-          const selector = getSmartSelector(target);
-          const clickKey = selector + '_' + (target.textContent || '').substring(0, 20);
-          const now = Date.now();
-
-          if (window.rbBotLastClick && window.rbBotLastClick.key === clickKey && (now - window.rbBotLastClick.time) < 300) {
-            console.log('Skipped duplicate click:', clickKey);
-            return;
-          }
-
-          window.rbBotLastClick = { key: clickKey, time: now };
-
-          const action = {
-            type: 'click',
-            selector: selector,
-            text: (target.textContent || '').substring(0, 50),
-            timestamp: now,
-            url: window.location.href
-          };
-
-          window.rbBotActions.push(action);
-          console.log('Recorded click:', action);
-
-          const ind = document.getElementById('rb-bot-indicator');
-          if (ind) ind.innerHTML = 'Recording... (' + window.rbBotActions.length + ')';
-        }, { capture: true, passive: true });
-
-        document.addEventListener('input', function (e) {
-          if (!window.rbBotRecording) return;
-
-          const selector = getSmartSelector(e.target);
-
-          if (window.rbBotInputTimers[selector]) clearTimeout(window.rbBotInputTimers[selector]);
-
-          window.rbBotInputTimers[selector] = setTimeout(() => {
-            window.rbBotActions = window.rbBotActions.filter(a => !(a.type === 'fill' && a.selector === selector));
-
-            const action = {
-              type: 'fill',
-              selector: selector,
-              value: e.target.value,
-              timestamp: Date.now(),
-              url: window.location.href
-            };
-
-            window.rbBotActions.push(action);
-            console.log('Recorded input:', action);
-
-            const ind = document.getElementById('rb-bot-indicator');
-            if (ind) ind.innerHTML = 'Recording... (' + window.rbBotActions.length + ')';
-          }, 1000);
-        }, true);
-
-        console.log('Recording active!');
-      },
-      args: [sessionId]
-    });
-
-    console.log('Recording started');
-    window.close();
-  } catch (e) {
-    // Tab no longer exists — clear stale state and show error
-    chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null });
-    isRecording = false;
-    recordingTab = null;
+  chrome.tabs.sendMessage(tab.id, { action: 'startRecording', sessionId }, (response) => {
+    if (chrome.runtime.lastError || !response) {
+      showToast('Could not start recording on this page. Try refreshing it.', 'error', 'recorder');
+      chrome.storage.local.set({ isRecording: false });
+      return;
+    }
+    isRecording = true;
     updateUI();
-    showToast('Navigate to a website tab first, then start recording', 'error', 'recorder');
-  }
+    startCounterPoll();
+    window.close();
+  });
 }
 
 async function stopRecording() {
   const workflowName = document.getElementById('workflowNameInput').value || 'Untitled Workflow';
 
-  try {
-    const results = await chrome.scripting.executeScript({
-      target: { tabId: recordingTab },
-      func: () => {
-        window.rbBotRecording = false;
-        const indicator = document.getElementById('rb-bot-indicator');
-        if (indicator) indicator.remove();
-        console.log('Recording stopped. Total:', window.rbBotActions.length);
-        return window.rbBotActions || [];
-      }
-    });
+  chrome.tabs.sendMessage(recordingTab, { action: 'stopRecording' }, (response) => {
+    const actions = response?.actions || [];
 
-    const actions = results[0]?.result || [];
-    console.log('Retrieved', actions.length, 'actions');
-
-    chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null });
-
+    chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null, rbBotActions: [] });
     isRecording = false;
     updateUI();
-
     document.getElementById('actionCount').textContent = actions.length;
     showToast(`Recorded ${actions.length} actions`, 'info');
 
-    if (actions.length > 0) {
-      chrome.storage.local.get(['recordings', 'authToken', 'selectedBotId', 'selectedBotName'], async (result) => {
-        const recording = {
-          workflowName: workflowName,
-          sessionId: sessionId,
-          actions: actions,
-          recordedAt: new Date().toISOString(),
-          actionCount: actions.length,
-          botId: result.selectedBotId || null
-        };
-
-        const recordings = result.recordings || [];
-        recordings.push(recording);
-        chrome.storage.local.set({ recordings: recordings });
-
-        if (result.authToken) {
-          showToast('Uploading to server...', 'info');
-          chrome.runtime.sendMessage({ action: 'saveWorkflow', payload: recording }, (response) => {
-            if (response?.success) {
-              showToast(`✅ Saved! Bot: ${response.data.bot_name || 'N/A'}`, 'success');
-            } else if (response?.error?.includes('401')) {
-              showToast('Session expired. Please login again.', 'error');
-              chrome.storage.local.remove(['authToken', 'refreshToken', 'user']);
-              showLogin();
-            } else {
-              showToast(`Upload failed: ${response?.error || 'Unknown error'}`, 'error');
-              downloadJSON(recording);
-            }
-          });
-        } else {
-          downloadJSON(recording);
-        }
-      });
-    } else {
+    if (!actions.length) {
       showToast('No actions were recorded', 'error');
+      return;
     }
-  } catch (e) {
-    // Tab no longer exists — clear stale recording state and reset UI
-    chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null });
-    isRecording = false;
-    recordingTab = null;
-    updateUI();
-    showToast('Recording session lost. Tab was closed or reloaded.', 'error', 'recorder');
-  }
+
+    chrome.storage.local.get(['authToken', 'selectedBotId'], (result) => {
+      const recording = {
+        workflowName,
+        sessionId,
+        actions,
+        recordedAt: new Date().toISOString(),
+        actionCount: actions.length,
+        botId: result.selectedBotId || null
+      };
+
+      if (result.authToken) {
+        showToast('Uploading to server...', 'info');
+        chrome.runtime.sendMessage({ action: 'saveWorkflow', payload: recording }, (res) => {
+          if (res?.success) {
+            showToast(`✅ Saved! Bot: ${res.data.bot_name || 'N/A'}`, 'success');
+          } else if (res?.error?.includes('401')) {
+            showToast('Session expired. Please login again.', 'error');
+            chrome.storage.local.remove(['authToken', 'refreshToken', 'user']);
+            showLogin();
+          } else {
+            showToast(`Upload failed: ${res?.error || 'Unknown'}`, 'error');
+            downloadJSON(recording);
+          }
+        });
+      } else {
+        downloadJSON(recording);
+      }
+    });
+  });
 }
 
+// ── Counter poll ─────────────────────────────────────────────────
+let counterInterval = null;
+function startCounterPoll() {
+  if (counterInterval) clearInterval(counterInterval);
+  counterInterval = setInterval(() => {
+    if (!isRecording) { clearInterval(counterInterval); return; }
+    chrome.storage.local.get('rbBotActions', ({ rbBotActions }) => {
+      document.getElementById('actionCount').textContent = (rbBotActions || []).length;
+    });
+  }, 1000);
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
 function downloadJSON(recording) {
   const blob = new Blob([JSON.stringify(recording, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -357,6 +229,15 @@ function downloadJSON(recording) {
   a.click();
   URL.revokeObjectURL(url);
   showToast('Downloaded locally', 'info');
+}
+
+function showToast(message, type = 'info', section = 'recorder') {
+  const toast = document.getElementById(section === 'login' ? 'loginToast' : 'recorderToast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.className = `toast toast-${type}`;
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 3500);
 }
 
 function updateUI() {
@@ -382,18 +263,3 @@ function updateUI() {
     stopBtn.style.display = 'none';
   }
 }
-
-setInterval(async () => {
-  if (isRecording && recordingTab) {
-    try {
-      const results = await chrome.scripting.executeScript({
-        target: { tabId: recordingTab },
-        func: () => window.rbBotActions ? window.rbBotActions.length : 0
-      });
-
-      if (results && results[0]) {
-        document.getElementById('actionCount').textContent = results[0].result;
-      }
-    } catch (e) { }
-  }
-}, 1000);

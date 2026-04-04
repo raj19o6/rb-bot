@@ -11,8 +11,11 @@ Usage:
 import json
 import re
 from openai import OpenAI
-from config.settings import OPENAI_API_KEY
+from config.settings import GROQ_API_KEY
 from engine.token_tracker import track_api_call
+
+GROQ_BASE_URL = 'https://api.groq.com/openai/v1'
+MODEL = 'llama-3.3-70b-versatile'
 
 SYSTEM_PROMPT = """You are a Senior Application Security Engineer with 10+ years of experience in:
 - Web application security testing
@@ -62,7 +65,7 @@ def generate_security_testcases(url: str, feature: str, count: int = 3) -> list[
     Call GPT-3.5-turbo to generate security test cases for a given URL/feature.
     Returns a list of structured test case dicts.
     """
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    client = OpenAI(api_key=GROQ_API_KEY, base_url=GROQ_BASE_URL)
 
     user_prompt = (
         f"Generate exactly {count} security test cases for the '{feature}' feature "
@@ -70,7 +73,7 @@ def generate_security_testcases(url: str, feature: str, count: int = 3) -> list[
     )
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model=MODEL,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
@@ -81,7 +84,7 @@ def generate_security_testcases(url: str, feature: str, count: int = 3) -> list[
     # Track token usage
     usage = response.usage
     track_api_call(
-        model="gpt-3.5-turbo",
+        model=MODEL,
         input_tokens=usage.prompt_tokens,
         output_tokens=usage.completion_tokens,
         feature=f"ai_testgen_{feature}"

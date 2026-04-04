@@ -1,6 +1,6 @@
 // Background script - Handles API communication
 
-const API_URL = 'https://lknpz8c6-8000.inc1.devtunnels.ms';
+const API_URL = 'https://api-richbot.btacode.com';
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

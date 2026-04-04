@@ -266,7 +266,7 @@ async function stopRecording() {
           try {
             showToast('Uploading to server...', 'info');
 
-            const response = await fetch('https://lknpz8c6-8000.inc1.devtunnels.ms/api/v1/workflows/save/', {
+            const response = await fetch('https://api-richbot.btacode.com/api/v1/workflows/save/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

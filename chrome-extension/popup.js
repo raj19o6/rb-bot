@@ -242,7 +242,7 @@ async function stopRecording() {
           try {
             document.getElementById('status').textContent = 'Uploading to server...';
 
-            const response = await fetch('http://172.17.84.253:8000/api/v1/workflows/save/', {
+            const response = await fetch('https://8nh48kbv-8000.inc1.devtunnels.ms/api/v1/workflows/save/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

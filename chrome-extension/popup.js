@@ -1,5 +1,5 @@
 // Popup script - Manifest V3 compatible
-const API_BASE = 'https://api-richbot.btacode.com';
+const API_BASE = 'http://127.0.0.1:8000';
 
 let isRecording = false;
 let sessionId = null;
@@ -60,7 +60,7 @@ function fetchBots(token) {
         });
       });
     })
-    .catch(() => showToast('Could not load bots', 'error'));
+    .catch(() => showToast('Could not load bots', 'error', 'recorder'));
 }
 
 function showLogin() {
@@ -81,11 +81,11 @@ function logout() {
   });
 }
 
-function showToast(message, type = 'info') {
-  const toasts = document.querySelectorAll('#toast');
-  const toast = toasts[toasts.length - 1];
+function showToast(message, type = 'info', section = 'recorder') {
+  const toast = document.getElementById(section === 'login' ? 'loginToast' : 'recorderToast');
+  if (!toast) return;
   toast.textContent = message;
-  toast.className = `toast-${type}`;
+  toast.className = `toast toast-${type}`;
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 3500);
 }
@@ -95,7 +95,7 @@ function login() {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    showToast('Please enter username and password', 'error');
+    showToast('Please enter username and password', 'error', 'login');
     return;
   }
 
@@ -126,7 +126,7 @@ function login() {
       });
     })
     .catch(error => {
-      showToast('Login failed: ' + error.message, 'error');
+      showToast('Login failed: ' + error.message, 'error', 'login');
       const btn = document.getElementById('loginBtn');
       btn.innerHTML = '<span>🔐</span> Sign In';
       btn.disabled = false;
@@ -140,12 +140,18 @@ async function startRecording() {
   const botName = botSelect ? botSelect.options[botSelect.selectedIndex]?.textContent : '';
 
   if (!botId) {
-    showToast('Please select a bot before recording', 'error');
+    showToast('Please select a bot before recording', 'error', 'recorder');
+    return;
+  }
+
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  if (!tab || !tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('about:')) {
+    showToast('Navigate to a website first, then start recording', 'error', 'recorder');
     return;
   }
 
   sessionId = 'session_' + Date.now();
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   recordingTab = tab.id;
 
   chrome.storage.local.set({
@@ -263,7 +269,12 @@ async function startRecording() {
     console.log('Recording started');
     window.close();
   } catch (e) {
-    alert('Error: ' + e.message);
+    // Tab no longer exists — clear stale state and show error
+    chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null });
+    isRecording = false;
+    recordingTab = null;
+    updateUI();
+    showToast('Navigate to a website tab first, then start recording', 'error', 'recorder');
   }
 }
 
@@ -345,7 +356,12 @@ async function stopRecording() {
       showToast('No actions were recorded', 'error');
     }
   } catch (e) {
-    alert('Error: ' + e.message);
+    // Tab no longer exists — clear stale recording state and reset UI
+    chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null });
+    isRecording = false;
+    recordingTab = null;
+    updateUI();
+    showToast('Recording session lost. Tab was closed or reloaded.', 'error', 'recorder');
   }
 }
 
@@ -370,16 +386,16 @@ function updateUI() {
   if (isRecording) {
     dot.className = 'status-dot dot-recording';
     statusText.innerHTML = '<strong>Recording</strong> in progress...';
-    badge.className = 'header-badge badge-recording';
-    badge.textContent = '● REC';
+    badge.className = 'badge badge-recording';
+    badge.textContent = 'REC';
     recordBtn.style.display = 'none';
-    stopBtn.style.display = 'flex';
+    stopBtn.style.display = 'block';
   } else {
     dot.className = 'status-dot dot-idle';
     statusText.innerHTML = '<strong>Ready</strong> to record';
-    badge.className = 'header-badge badge-idle';
-    badge.textContent = 'IDLE';
-    recordBtn.style.display = 'flex';
+    badge.className = 'badge badge-idle';
+    badge.textContent = 'Idle';
+    recordBtn.style.display = 'block';
     stopBtn.style.display = 'none';
   }
 }

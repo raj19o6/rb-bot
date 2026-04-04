@@ -39,6 +39,9 @@ pipeline {
                     
                     python3 -m pip install --upgrade pip --user
                     python3 -m pip install -r requirements.txt --user
+                    
+                    # Install Playwright with system dependencies
+                    python3 -m playwright install-deps chromium || echo "Warning: Could not install system deps, may need sudo"
                     python3 -m playwright install chromium
                 '''
             }

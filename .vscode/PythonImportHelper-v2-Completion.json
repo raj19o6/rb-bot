@@ -1,0 +1,1461 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "sync_playwright",
+        "importPath": "playwright.sync_api",
+        "description": "playwright.sync_api",
+        "isExtraImport": true,
+        "detail": "playwright.sync_api",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
+        "importPath": "playwright.sync_api",
+        "description": "playwright.sync_api",
+        "isExtraImport": true,
+        "detail": "playwright.sync_api",
+        "documentation": {}
+    },
+    {
+        "label": "BROWSER",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "HEADLESS",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIMEOUT",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SLOW_MO",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "OPENAI_API_KEY",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SCREENSHOTS",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "OPENAI_API_KEY",
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "isExtraImport": true,
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "browser",
+        "importPath": "core",
+        "description": "core",
+        "isExtraImport": true,
+        "detail": "core",
+        "documentation": {}
+    },
+    {
+        "label": "browser",
+        "importPath": "core",
+        "description": "core",
+        "isExtraImport": true,
+        "detail": "core",
+        "documentation": {}
+    },
+    {
+        "label": "browser",
+        "importPath": "core",
+        "description": "core",
+        "isExtraImport": true,
+        "detail": "core",
+        "documentation": {}
+    },
+    {
+        "label": "browser",
+        "importPath": "core",
+        "description": "core",
+        "isExtraImport": true,
+        "detail": "core",
+        "documentation": {}
+    },
+    {
+        "label": "template_loader",
+        "importPath": "engine",
+        "description": "engine",
+        "isExtraImport": true,
+        "detail": "engine",
+        "documentation": {}
+    },
+    {
+        "label": "executor",
+        "importPath": "engine",
+        "description": "engine",
+        "isExtraImport": true,
+        "detail": "engine",
+        "documentation": {}
+    },
+    {
+        "label": "validator",
+        "importPath": "engine",
+        "description": "engine",
+        "isExtraImport": true,
+        "detail": "engine",
+        "documentation": {}
+    },
+    {
+        "label": "executor",
+        "importPath": "engine",
+        "description": "engine",
+        "isExtraImport": true,
+        "detail": "engine",
+        "documentation": {}
+    },
+    {
+        "label": "validator",
+        "importPath": "engine",
+        "description": "engine",
+        "isExtraImport": true,
+        "detail": "engine",
+        "documentation": {}
+    },
+    {
+        "label": "executor",
+        "importPath": "engine",
+        "description": "engine",
+        "isExtraImport": true,
+        "detail": "engine",
+        "documentation": {}
+    },
+    {
+        "label": "generate_security_testcases",
+        "importPath": "engine.ai_testgen",
+        "description": "engine.ai_testgen",
+        "isExtraImport": true,
+        "detail": "engine.ai_testgen",
+        "documentation": {}
+    },
+    {
+        "label": "generate_security_testcases",
+        "importPath": "engine.ai_testgen",
+        "description": "engine.ai_testgen",
+        "isExtraImport": true,
+        "detail": "engine.ai_testgen",
+        "documentation": {}
+    },
+    {
+        "label": "generate_security_testcases",
+        "importPath": "engine.ai_testgen",
+        "description": "engine.ai_testgen",
+        "isExtraImport": true,
+        "detail": "engine.ai_testgen",
+        "documentation": {}
+    },
+    {
+        "label": "crawl",
+        "importPath": "engine.crawler",
+        "description": "engine.crawler",
+        "isExtraImport": true,
+        "detail": "engine.crawler",
+        "documentation": {}
+    },
+    {
+        "label": "crawl",
+        "importPath": "engine.crawler",
+        "description": "engine.crawler",
+        "isExtraImport": true,
+        "detail": "engine.crawler",
+        "documentation": {}
+    },
+    {
+        "label": "run_route",
+        "importPath": "engine.auto_runner",
+        "description": "engine.auto_runner",
+        "isExtraImport": true,
+        "detail": "engine.auto_runner",
+        "documentation": {}
+    },
+    {
+        "label": "surf",
+        "importPath": "engine.surfer",
+        "description": "engine.surfer",
+        "isExtraImport": true,
+        "detail": "engine.surfer",
+        "documentation": {}
+    },
+    {
+        "label": "surf",
+        "importPath": "engine.surfer",
+        "description": "engine.surfer",
+        "isExtraImport": true,
+        "detail": "engine.surfer",
+        "documentation": {}
+    },
+    {
+        "label": "save",
+        "importPath": "reports.report_generator",
+        "description": "reports.report_generator",
+        "isExtraImport": true,
+        "detail": "reports.report_generator",
+        "documentation": {}
+    },
+    {
+        "label": "save",
+        "importPath": "reports.report_generator",
+        "description": "reports.report_generator",
+        "isExtraImport": true,
+        "detail": "reports.report_generator",
+        "documentation": {}
+    },
+    {
+        "label": "generate",
+        "importPath": "reports.html_reporter",
+        "description": "reports.html_reporter",
+        "isExtraImport": true,
+        "detail": "reports.html_reporter",
+        "documentation": {}
+    },
+    {
+        "label": "generate",
+        "importPath": "reports.html_reporter",
+        "description": "reports.html_reporter",
+        "isExtraImport": true,
+        "detail": "reports.html_reporter",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "xss",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "sqli",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "xss",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "sqli",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "xss",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "sqli",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "xss",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "sqli",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "xss",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "sqli",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "xss",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "sqli",
+        "importPath": "security",
+        "description": "security",
+        "isExtraImport": true,
+        "detail": "security",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "OpenAI",
+        "importPath": "openai",
+        "description": "openai",
+        "isExtraImport": true,
+        "detail": "openai",
+        "documentation": {}
+    },
+    {
+        "label": "track_api_call",
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "isExtraImport": true,
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "print_summary",
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "isExtraImport": true,
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "save_session",
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "isExtraImport": true,
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "print_summary",
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "isExtraImport": true,
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "save_session",
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "isExtraImport": true,
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "scrape",
+        "importPath": "engine.scraper",
+        "description": "engine.scraper",
+        "isExtraImport": true,
+        "detail": "engine.scraper",
+        "documentation": {}
+    },
+    {
+        "label": "scrape",
+        "importPath": "engine.scraper",
+        "description": "engine.scraper",
+        "isExtraImport": true,
+        "detail": "engine.scraper",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "importPath": "engine.executor",
+        "description": "engine.executor",
+        "isExtraImport": true,
+        "detail": "engine.executor",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "importPath": "engine.validator",
+        "description": "engine.validator",
+        "isExtraImport": true,
+        "detail": "engine.validator",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "isExtraImport": true,
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "urlparse",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "isExtraImport": true,
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "urljoin",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "isExtraImport": true,
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "urldefrag",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "isExtraImport": true,
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "urlparse",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "isExtraImport": true,
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "urljoin",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "isExtraImport": true,
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "urldefrag",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "isExtraImport": true,
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "get_input_selectors",
+        "importPath": "utils.selectors",
+        "description": "utils.selectors",
+        "isExtraImport": true,
+        "detail": "utils.selectors",
+        "documentation": {}
+    },
+    {
+        "label": "get_input_selectors",
+        "importPath": "utils.selectors",
+        "description": "utils.selectors",
+        "isExtraImport": true,
+        "detail": "utils.selectors",
+        "documentation": {}
+    },
+    {
+        "label": "is_error_page",
+        "importPath": "utils.helpers",
+        "description": "utils.helpers",
+        "isExtraImport": true,
+        "detail": "utils.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "truncate",
+        "importPath": "utils.helpers",
+        "description": "utils.helpers",
+        "isExtraImport": true,
+        "detail": "utils.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "truncate",
+        "importPath": "utils.helpers",
+        "description": "utils.helpers",
+        "isExtraImport": true,
+        "detail": "utils.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "html_reporter",
+        "importPath": "reports",
+        "description": "reports",
+        "isExtraImport": true,
+        "detail": "reports",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "BROWSER",
+        "kind": 5,
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "peekOfCode": "BROWSER = \"chromium\"\nHEADLESS = True\nTIMEOUT = 10000  # ms\nSLOW_MO = 50\nSCREENSHOTS = True\nimport os\nfrom pathlib import Path\nfrom dotenv import load_dotenv\n# Load environment variables from .env file\nenv_path = Path(__file__).parent.parent / \".env\"",
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "HEADLESS",
+        "kind": 5,
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "peekOfCode": "HEADLESS = True\nTIMEOUT = 10000  # ms\nSLOW_MO = 50\nSCREENSHOTS = True\nimport os\nfrom pathlib import Path\nfrom dotenv import load_dotenv\n# Load environment variables from .env file\nenv_path = Path(__file__).parent.parent / \".env\"\nload_dotenv(dotenv_path=env_path)",
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIMEOUT",
+        "kind": 5,
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "peekOfCode": "TIMEOUT = 10000  # ms\nSLOW_MO = 50\nSCREENSHOTS = True\nimport os\nfrom pathlib import Path\nfrom dotenv import load_dotenv\n# Load environment variables from .env file\nenv_path = Path(__file__).parent.parent / \".env\"\nload_dotenv(dotenv_path=env_path)\n# Get OpenAI API key from environment",
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SLOW_MO",
+        "kind": 5,
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "peekOfCode": "SLOW_MO = 50\nSCREENSHOTS = True\nimport os\nfrom pathlib import Path\nfrom dotenv import load_dotenv\n# Load environment variables from .env file\nenv_path = Path(__file__).parent.parent / \".env\"\nload_dotenv(dotenv_path=env_path)\n# Get OpenAI API key from environment\nOPENAI_API_KEY: str = os.getenv(\"OPENAI_API_KEY\", \"\")",
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SCREENSHOTS",
+        "kind": 5,
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "peekOfCode": "SCREENSHOTS = True\nimport os\nfrom pathlib import Path\nfrom dotenv import load_dotenv\n# Load environment variables from .env file\nenv_path = Path(__file__).parent.parent / \".env\"\nload_dotenv(dotenv_path=env_path)\n# Get OpenAI API key from environment\nOPENAI_API_KEY: str = os.getenv(\"OPENAI_API_KEY\", \"\")",
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "env_path",
+        "kind": 5,
+        "importPath": "config.settings",
+        "description": "config.settings",
+        "peekOfCode": "env_path = Path(__file__).parent.parent / \".env\"\nload_dotenv(dotenv_path=env_path)\n# Get OpenAI API key from environment\nOPENAI_API_KEY: str = os.getenv(\"OPENAI_API_KEY\", \"\")",
+        "detail": "config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "get_page",
+        "kind": 2,
+        "importPath": "core.browser",
+        "description": "core.browser",
+        "peekOfCode": "def get_page():\n    global _pw, _browser\n    _pw = sync_playwright().start()\n    launcher = getattr(_pw, BROWSER)\n    _browser = launcher.launch(headless=HEADLESS, slow_mo=SLOW_MO)\n    ctx = _browser.new_context(\n        extra_http_headers={\n            'x-tunnel-skip-browser-warning': '1'\n        }\n    )",
+        "detail": "core.browser",
+        "documentation": {}
+    },
+    {
+        "label": "close",
+        "kind": 2,
+        "importPath": "core.browser",
+        "description": "core.browser",
+        "peekOfCode": "def close():\n    if _browser:\n        _browser.close()\n    if _pw:\n        _pw.stop()",
+        "detail": "core.browser",
+        "documentation": {}
+    },
+    {
+        "label": "_pw",
+        "kind": 5,
+        "importPath": "core.browser",
+        "description": "core.browser",
+        "peekOfCode": "_pw = None\n_browser = None\ndef get_page():\n    global _pw, _browser\n    _pw = sync_playwright().start()\n    launcher = getattr(_pw, BROWSER)\n    _browser = launcher.launch(headless=HEADLESS, slow_mo=SLOW_MO)\n    ctx = _browser.new_context(\n        extra_http_headers={\n            'x-tunnel-skip-browser-warning': '1'",
+        "detail": "core.browser",
+        "documentation": {}
+    },
+    {
+        "label": "_browser",
+        "kind": 5,
+        "importPath": "core.browser",
+        "description": "core.browser",
+        "peekOfCode": "_browser = None\ndef get_page():\n    global _pw, _browser\n    _pw = sync_playwright().start()\n    launcher = getattr(_pw, BROWSER)\n    _browser = launcher.launch(headless=HEADLESS, slow_mo=SLOW_MO)\n    ctx = _browser.new_context(\n        extra_http_headers={\n            'x-tunnel-skip-browser-warning': '1'\n        }",
+        "detail": "core.browser",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "kind": 5,
+        "importPath": "core.logger",
+        "description": "core.logger",
+        "peekOfCode": "log = logging.getLogger(\"rb-bot\")",
+        "detail": "core.logger",
+        "documentation": {}
+    },
+    {
+        "label": "run_bot",
+        "kind": 2,
+        "importPath": "core.runner",
+        "description": "core.runner",
+        "peekOfCode": "def run_bot():\n    data = json.loads(INPUT.read_text())\n    variables       = {k: v for k, v in data.items() if k not in (\"templates\", \"openai_api_key\", \"ai_testgen\", \"crawl\", \"surf\")}\n    security_checks = data.get(\"security\", [\"headers\", \"xss\", \"sqli\"])\n    ai_cfg          = data.get(\"ai_testgen\", {})\n    crawl_cfg       = data.get(\"crawl\", {})\n    surf_cfg        = data.get(\"surf\", {})\n    page            = browser.get_page()\n    all_reports     = []\n    surf_reports    = []",
+        "detail": "core.runner",
+        "documentation": {}
+    },
+    {
+        "label": "INPUT",
+        "kind": 5,
+        "importPath": "core.runner",
+        "description": "core.runner",
+        "peekOfCode": "INPUT = Path(__file__).parent.parent / \"data\" / \"input.json\"\ndef run_bot():\n    data = json.loads(INPUT.read_text())\n    variables       = {k: v for k, v in data.items() if k not in (\"templates\", \"openai_api_key\", \"ai_testgen\", \"crawl\", \"surf\")}\n    security_checks = data.get(\"security\", [\"headers\", \"xss\", \"sqli\"])\n    ai_cfg          = data.get(\"ai_testgen\", {})\n    crawl_cfg       = data.get(\"crawl\", {})\n    surf_cfg        = data.get(\"surf\", {})\n    page            = browser.get_page()\n    all_reports     = []",
+        "detail": "core.runner",
+        "documentation": {}
+    },
+    {
+        "label": "generate_security_testcases",
+        "kind": 2,
+        "importPath": "engine.ai_testgen",
+        "description": "engine.ai_testgen",
+        "peekOfCode": "def generate_security_testcases(url: str, feature: str, count: int = 3) -> list[dict]:\n    \"\"\"\n    Call GPT-3.5-turbo to generate security test cases for a given URL/feature.\n    Returns a list of structured test case dicts.\n    \"\"\"\n    client = OpenAI(api_key=OPENAI_API_KEY)\n    user_prompt = (\n        f\"Generate exactly {count} security test cases for the '{feature}' feature \"\n        f\"at URL: {url}. Focus on OWASP Top 10 risks most relevant to this feature.\"\n    )",
+        "detail": "engine.ai_testgen",
+        "documentation": {}
+    },
+    {
+        "label": "testcases_to_template",
+        "kind": 2,
+        "importPath": "engine.ai_testgen",
+        "description": "engine.ai_testgen",
+        "peekOfCode": "def testcases_to_template(name: str, base_url: str, cases: list[dict]) -> dict:\n    \"\"\"\n    Convert AI-generated security test cases into an rb-bot JSON template.\n    Each test case becomes a goto + annotated step group.\n    \"\"\"\n    steps = [{\"action\": \"goto\", \"url\": base_url}]\n    for tc in cases:\n        steps.append({\n            \"action\": \"security_check\",\n            \"test_case_id\": tc[\"id\"],",
+        "detail": "engine.ai_testgen",
+        "documentation": {}
+    },
+    {
+        "label": "SYSTEM_PROMPT",
+        "kind": 5,
+        "importPath": "engine.ai_testgen",
+        "description": "engine.ai_testgen",
+        "peekOfCode": "SYSTEM_PROMPT = \"\"\"You are a Senior Application Security Engineer with 10+ years of experience in:\n- Web application security testing\n- OWASP Top 10, OWASP ASVS\n- GRC frameworks (ISO 27001, SOC 2, PCI-DSS)\nYour task is to generate STRICT, PROFESSIONAL, and AUDIT-READY security test cases.\nRULES:\n1. Only provide relevant, actionable security test cases.\n2. Do NOT include explanations, storytelling, or unnecessary text.\n3. Follow EXACT structure for every test case:\n   - Test Case ID",
+        "detail": "engine.ai_testgen",
+        "documentation": {}
+    },
+    {
+        "label": "run_route",
+        "kind": 2,
+        "importPath": "engine.auto_runner",
+        "description": "engine.auto_runner",
+        "peekOfCode": "def run_route(page, url: str, security_checks: list) -> dict:\n    \"\"\"\n    Visit a route, scrape elements, build steps, execute, run security checks.\n    Returns a full report dict for this route.\n    \"\"\"\n    log.info(f\"Auto-runner: testing {url}\")\n    # Navigate\n    try:\n        page.goto(url, wait_until=\"domcontentloaded\", timeout=15000)\n        page.wait_for_timeout(300)",
+        "detail": "engine.auto_runner",
+        "documentation": {}
+    },
+    {
+        "label": "_FILL_VALUES",
+        "kind": 5,
+        "importPath": "engine.auto_runner",
+        "description": "engine.auto_runner",
+        "peekOfCode": "_FILL_VALUES = {\n    \"email\":    \"test@example.com\",\n    \"password\": \"Test@1234\",\n    \"search\":   \"test\",\n    \"text\":     \"test input\",\n    \"tel\":      \"1234567890\",\n    \"number\":   \"42\",\n    \"url\":      \"https://example.com\",\n    \"\":         \"test\",\n}",
+        "detail": "engine.auto_runner",
+        "documentation": {}
+    },
+    {
+        "label": "safe_analyze_page_intent",
+        "kind": 2,
+        "importPath": "engine.autonomous_agent",
+        "description": "engine.autonomous_agent",
+        "peekOfCode": "def safe_analyze_page_intent(page_data):\n    \"\"\"Safely determine page intent with fallbacks.\"\"\"\n    try:\n        forms = page_data.get(\"forms\", [])\n        elements = page_data.get(\"elements\", [])\n        inputs = [e for e in elements if e.get(\"tag\") in [\"input\", \"textarea\", \"select\"]]\n        buttons = [e for e in elements if e.get(\"tag\") == \"button\" or (e.get(\"tag\") == \"input\" and e.get(\"type\") in [\"submit\", \"button\"])]\n        meta = page_data.get(\"meta\", {})\n        title = meta.get(\"title\", \"\").lower()\n        url = page_data.get(\"url\", \"\").lower()",
+        "detail": "engine.autonomous_agent",
+        "documentation": {}
+    },
+    {
+        "label": "safe_generate_test_data",
+        "kind": 2,
+        "importPath": "engine.autonomous_agent",
+        "description": "engine.autonomous_agent",
+        "peekOfCode": "def safe_generate_test_data(inp):\n    \"\"\"Safely generate test data for any input field.\"\"\"\n    try:\n        inp_type = inp.get(\"type\", \"text\").lower()\n        inp_name = inp.get(\"name\", \"\").lower()\n        inp_id = inp.get(\"id\", \"\").lower()\n        inp_placeholder = inp.get(\"placeholder\", \"\").lower()\n        # Combine all hints\n        hints = f\"{inp_name} {inp_id} {inp_placeholder}\"\n        # Email detection",
+        "detail": "engine.autonomous_agent",
+        "documentation": {}
+    },
+    {
+        "label": "safe_generate_login_steps",
+        "kind": 2,
+        "importPath": "engine.autonomous_agent",
+        "description": "engine.autonomous_agent",
+        "peekOfCode": "def safe_generate_login_steps(page_data, credentials):\n    \"\"\"Safely generate login steps with multiple fallback strategies.\"\"\"\n    try:\n        steps = [{\"action\": \"goto\", \"url\": page_data[\"url\"]}]\n        elements = page_data.get(\"elements\", [])\n        inputs = [e for e in elements if e.get(\"tag\") in [\"input\", \"textarea\"]]\n        buttons = [e for e in elements if e.get(\"tag\") == \"button\" or (e.get(\"tag\") == \"input\" and e.get(\"type\") in [\"submit\", \"button\"])]\n        # Find username field - multiple strategies\n        username_field = None\n        for inp in inputs:",
+        "detail": "engine.autonomous_agent",
+        "documentation": {}
+    },
+    {
+        "label": "safe_generate_test_steps",
+        "kind": 2,
+        "importPath": "engine.autonomous_agent",
+        "description": "engine.autonomous_agent",
+        "peekOfCode": "def safe_generate_test_steps(page_data, intent):\n    \"\"\"Safely generate comprehensive test steps.\"\"\"\n    try:\n        steps = [{\"action\": \"goto\", \"url\": page_data[\"url\"]}]\n        elements = page_data.get(\"elements\", [])\n        inputs = [e for e in elements if e.get(\"tag\") in [\"input\", \"textarea\", \"select\"]]\n        buttons = [e for e in elements if e.get(\"tag\") == \"button\" or (e.get(\"tag\") == \"input\" and e.get(\"type\") in [\"submit\", \"button\"])]\n        tested_inputs = 0\n        tested_buttons = 0\n        # Test inputs",
+        "detail": "engine.autonomous_agent",
+        "documentation": {}
+    },
+    {
+        "label": "safe_test_route",
+        "kind": 2,
+        "importPath": "engine.autonomous_agent",
+        "description": "engine.autonomous_agent",
+        "peekOfCode": "def safe_test_route(page, route_url, openai_api_key=None, timeout=30):\n    \"\"\"Safely test a single route with timeout protection.\"\"\"\n    print(f\"\\n   📄 Testing: {route_url}\")\n    start_time = time.time()\n    try:\n        # Navigate with timeout\n        try:\n            page.goto(route_url, wait_until=\"domcontentloaded\", timeout=15000)\n            page.wait_for_timeout(500)\n        except Exception as e:",
+        "detail": "engine.autonomous_agent",
+        "documentation": {}
+    },
+    {
+        "label": "run_autonomous",
+        "kind": 2,
+        "importPath": "engine.autonomous_agent",
+        "description": "engine.autonomous_agent",
+        "peekOfCode": "def run_autonomous(page, base_url, credentials=None, openai_api_key=None):\n    \"\"\"\n    Production-ready autonomous testing.\n    Handles any website structure robustly.\n    \"\"\"\n    credentials = credentials or {}\n    all_reports = []\n    login_successful = False\n    print(f\"\\n🤖 Autonomous Agent Starting...\")\n    print(f\"   Target: {base_url}\")",
+        "detail": "engine.autonomous_agent",
+        "documentation": {}
+    },
+    {
+        "label": "crawl",
+        "kind": 2,
+        "importPath": "engine.crawler",
+        "description": "engine.crawler",
+        "peekOfCode": "def crawl(page, base_url: str, max_depth: int = 2, max_routes: int = 30) -> list[str]:\n    base = urlparse(base_url)\n    visited = set()\n    queue = [(base_url, 0)]\n    routes = []\n    while queue:\n        url, depth = queue.pop(0)\n        url, _ = urldefrag(url)  # strip fragments\n        if url in visited:\n            continue",
+        "detail": "engine.crawler",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "kind": 2,
+        "importPath": "engine.executor",
+        "description": "engine.executor",
+        "peekOfCode": "def run(page, steps: list, variables: dict) -> list[dict]:\n    results = []\n    for i, step in enumerate(steps):\n        action = step[\"action\"]\n        try:\n            if action == \"goto\":\n                page.goto(step[\"url\"], wait_until=\"domcontentloaded\")\n                page.wait_for_load_state(\"networkidle\", timeout=5000)\n            elif action == \"fill\":\n                locator = page.locator(step[\"selector\"])",
+        "detail": "engine.executor",
+        "documentation": {}
+    },
+    {
+        "label": "ARTIFACTS",
+        "kind": 5,
+        "importPath": "engine.executor",
+        "description": "engine.executor",
+        "peekOfCode": "ARTIFACTS = Path(__file__).parent.parent / \"reports\" / \"artifacts\"\ndef run(page, steps: list, variables: dict) -> list[dict]:\n    results = []\n    for i, step in enumerate(steps):\n        action = step[\"action\"]\n        try:\n            if action == \"goto\":\n                page.goto(step[\"url\"], wait_until=\"domcontentloaded\")\n                page.wait_for_load_state(\"networkidle\", timeout=5000)\n            elif action == \"fill\":",
+        "detail": "engine.executor",
+        "documentation": {}
+    },
+    {
+        "label": "WorkflowRecorder",
+        "kind": 6,
+        "importPath": "engine.recorder",
+        "description": "engine.recorder",
+        "peekOfCode": "class WorkflowRecorder:\n    def __init__(self, page):\n        self.page = page\n        self.actions = []\n        self.start_time = None\n        self.workflow_name = None\n    def start_recording(self, workflow_name):\n        \"\"\"Start recording user actions.\"\"\"\n        self.workflow_name = workflow_name\n        self.start_time = datetime.now()",
+        "detail": "engine.recorder",
+        "documentation": {}
+    },
+    {
+        "label": "record_workflow",
+        "kind": 2,
+        "importPath": "engine.recorder",
+        "description": "engine.recorder",
+        "peekOfCode": "def record_workflow(workflow_name, base_url):\n    \"\"\"\n    Interactive workflow recorder.\n    Opens browser and records user actions.\n    \"\"\"\n    print(\"\\n\" + \"=\"*70)\n    print(\"🎬 RB-BOT WORKFLOW RECORDER\")\n    print(\"=\"*70)\n    print(f\"  Workflow: {workflow_name}\")\n    print(f\"  Starting URL: {base_url}\")",
+        "detail": "engine.recorder",
+        "documentation": {}
+    },
+    {
+        "label": "WORKFLOWS_DIR",
+        "kind": 5,
+        "importPath": "engine.recorder",
+        "description": "engine.recorder",
+        "peekOfCode": "WORKFLOWS_DIR = Path(__file__).parent.parent / \"workflows\"\nWORKFLOWS_DIR.mkdir(exist_ok=True)\nclass WorkflowRecorder:\n    def __init__(self, page):\n        self.page = page\n        self.actions = []\n        self.start_time = None\n        self.workflow_name = None\n    def start_recording(self, workflow_name):\n        \"\"\"Start recording user actions.\"\"\"",
+        "detail": "engine.recorder",
+        "documentation": {}
+    },
+    {
+        "label": "WorkflowPlayer",
+        "kind": 6,
+        "importPath": "engine.replay",
+        "description": "engine.replay",
+        "peekOfCode": "class WorkflowPlayer:\n    def __init__(self, page):\n        self.page = page\n        self.workflow = None\n        self.results = []\n    def load_workflow(self, workflow_path):\n        \"\"\"Load workflow from file.\"\"\"\n        if isinstance(workflow_path, str):\n            workflow_path = Path(workflow_path)\n        if not workflow_path.exists():",
+        "detail": "engine.replay",
+        "documentation": {}
+    },
+    {
+        "label": "replay_workflow",
+        "kind": 2,
+        "importPath": "engine.replay",
+        "description": "engine.replay",
+        "peekOfCode": "def replay_workflow(workflow_name, test_data=None, run_security=True):\n    \"\"\"\n    Replay a recorded workflow.\n    Args:\n        workflow_name: Name of the workflow file (without .json)\n        test_data: Optional dict to override values\n        run_security: Whether to run security checks\n    \"\"\"\n    print(\"\\n\" + \"=\"*70)\n    print(\"🎬 RB-BOT WORKFLOW REPLAY\")",
+        "detail": "engine.replay",
+        "documentation": {}
+    },
+    {
+        "label": "list_workflows",
+        "kind": 2,
+        "importPath": "engine.replay",
+        "description": "engine.replay",
+        "peekOfCode": "def list_workflows():\n    \"\"\"List all available workflows.\"\"\"\n    print(\"\\n\" + \"=\"*70)\n    print(\"📋 AVAILABLE WORKFLOWS\")\n    print(\"=\"*70)\n    workflows = list(WORKFLOWS_DIR.glob(\"*.json\"))\n    if not workflows:\n        print(\"  No workflows found.\")\n        print(f\"  Record one using: python record_workflow.py\")\n        return",
+        "detail": "engine.replay",
+        "documentation": {}
+    },
+    {
+        "label": "WORKFLOWS_DIR",
+        "kind": 5,
+        "importPath": "engine.replay",
+        "description": "engine.replay",
+        "peekOfCode": "WORKFLOWS_DIR = Path(__file__).parent.parent / \"workflows\"\nclass WorkflowPlayer:\n    def __init__(self, page):\n        self.page = page\n        self.workflow = None\n        self.results = []\n    def load_workflow(self, workflow_path):\n        \"\"\"Load workflow from file.\"\"\"\n        if isinstance(workflow_path, str):\n            workflow_path = Path(workflow_path)",
+        "detail": "engine.replay",
+        "documentation": {}
+    },
+    {
+        "label": "scrape",
+        "kind": 2,
+        "importPath": "engine.scraper",
+        "description": "engine.scraper",
+        "peekOfCode": "def scrape(page) -> list[dict]:\n    elements = []\n    try:\n        handles = page.query_selector_all(_INTERACTIVE)\n        for h in handles:\n            try:\n                if not h.is_visible():\n                    continue\n                tag      = (h.evaluate(\"e => e.tagName\") or \"\").lower()\n                el_type  = h.get_attribute(\"type\") or \"\"",
+        "detail": "engine.scraper",
+        "documentation": {}
+    },
+    {
+        "label": "_XPATH_JS",
+        "kind": 5,
+        "importPath": "engine.scraper",
+        "description": "engine.scraper",
+        "peekOfCode": "_XPATH_JS = \"\"\"\n(el) => {\n    const parts = [];\n    let node = el;\n    while (node && node.nodeType === 1) {\n        let idx = 1;\n        let sib = node.previousSibling;\n        while (sib) {\n            if (sib.nodeType === 1 && sib.tagName === node.tagName) idx++;\n            sib = sib.previousSibling;",
+        "detail": "engine.scraper",
+        "documentation": {}
+    },
+    {
+        "label": "_INTERACTIVE",
+        "kind": 5,
+        "importPath": "engine.scraper",
+        "description": "engine.scraper",
+        "peekOfCode": "_INTERACTIVE = (\n    \"input:not([type=hidden]), \"\n    \"textarea, \"\n    \"select, \"\n    \"button, \"\n    \"a[href], \"\n    \"[role=button], \"\n    \"[role=link], \"\n    \"[role=textbox]\"\n)",
+        "detail": "engine.scraper",
+        "documentation": {}
+    },
+    {
+        "label": "surf",
+        "kind": 2,
+        "importPath": "engine.surfer",
+        "description": "engine.surfer",
+        "peekOfCode": "def surf(page, base_url: str, config: dict) -> dict:\n    \"\"\"\n    Full site surf. Returns a SurfReport dict.\n    \"\"\"\n    max_depth    = config.get(\"max_depth\", 3)\n    max_routes   = config.get(\"max_routes\", 50)\n    do_screenshot = config.get(\"screenshot\", True)\n    security_checks = config.get(\"security\", [\"headers\", \"xss\", \"sqli\"])\n    base = urlparse(base_url)\n    visited = set()",
+        "detail": "engine.surfer",
+        "documentation": {}
+    },
+    {
+        "label": "ARTIFACTS",
+        "kind": 5,
+        "importPath": "engine.surfer",
+        "description": "engine.surfer",
+        "peekOfCode": "ARTIFACTS = Path(__file__).parent.parent / \"reports\" / \"artifacts\"\nARTIFACTS.mkdir(parents=True, exist_ok=True)\n# ── Tech fingerprint signatures ──────────────────────────────────────────────\n_TECH_SIGS = {\n    \"React\":          [r\"react(?:\\.min)?\\.js\", r\"__REACT_DEVTOOLS\", r\"data-reactroot\"],\n    \"Vue.js\":         [r\"vue(?:\\.min)?\\.js\", r\"__vue__\"],\n    \"Angular\":        [r\"angular(?:\\.min)?\\.js\", r\"ng-version\"],\n    \"Next.js\":        [r\"_next/static\", r\"__NEXT_DATA__\"],\n    \"Nuxt.js\":        [r\"_nuxt/\", r\"__NUXT__\"],\n    \"jQuery\":         [r\"jquery(?:\\.min)?\\.js\", r\"jQuery\\.fn\\.jquery\"],",
+        "detail": "engine.surfer",
+        "documentation": {}
+    },
+    {
+        "label": "_TECH_SIGS",
+        "kind": 5,
+        "importPath": "engine.surfer",
+        "description": "engine.surfer",
+        "peekOfCode": "_TECH_SIGS = {\n    \"React\":          [r\"react(?:\\.min)?\\.js\", r\"__REACT_DEVTOOLS\", r\"data-reactroot\"],\n    \"Vue.js\":         [r\"vue(?:\\.min)?\\.js\", r\"__vue__\"],\n    \"Angular\":        [r\"angular(?:\\.min)?\\.js\", r\"ng-version\"],\n    \"Next.js\":        [r\"_next/static\", r\"__NEXT_DATA__\"],\n    \"Nuxt.js\":        [r\"_nuxt/\", r\"__NUXT__\"],\n    \"jQuery\":         [r\"jquery(?:\\.min)?\\.js\", r\"jQuery\\.fn\\.jquery\"],\n    \"Bootstrap\":      [r\"bootstrap(?:\\.min)?\\.css\", r\"bootstrap(?:\\.min)?\\.js\"],\n    \"Tailwind\":       [r\"tailwind(?:css)?(?:\\.min)?\\.css\", r\"tailwindcss\"],\n    \"WordPress\":      [r\"/wp-content/\", r\"/wp-includes/\"],",
+        "detail": "engine.surfer",
+        "documentation": {}
+    },
+    {
+        "label": "load",
+        "kind": 2,
+        "importPath": "engine.template_loader",
+        "description": "engine.template_loader",
+        "peekOfCode": "def load(name: str, variables: dict) -> dict:\n    path = TEMPLATES_DIR / f\"{name}.json\"\n    raw = path.read_text()\n    for k, v in variables.items():\n        raw = raw.replace(f\"{{{{{k}}}}}\", str(v))\n    return json.loads(raw)",
+        "detail": "engine.template_loader",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES_DIR",
+        "kind": 5,
+        "importPath": "engine.template_loader",
+        "description": "engine.template_loader",
+        "peekOfCode": "TEMPLATES_DIR = Path(__file__).parent.parent / \"templates\"\ndef load(name: str, variables: dict) -> dict:\n    path = TEMPLATES_DIR / f\"{name}.json\"\n    raw = path.read_text()\n    for k, v in variables.items():\n        raw = raw.replace(f\"{{{{{k}}}}}\", str(v))\n    return json.loads(raw)",
+        "detail": "engine.template_loader",
+        "documentation": {}
+    },
+    {
+        "label": "TokenTracker",
+        "kind": 6,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "class TokenTracker:\n    def __init__(self):\n        self.session_usage = {\n            \"start_time\": datetime.now().isoformat(),\n            \"total_input_tokens\": 0,\n            \"total_output_tokens\": 0,\n            \"total_cost_usd\": 0.0,\n            \"total_cost_inr\": 0.0,\n            \"api_calls\": []\n        }",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "get_tracker",
+        "kind": 2,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "def get_tracker():\n    \"\"\"Get or create global tracker instance.\"\"\"\n    global _tracker\n    if _tracker is None:\n        _tracker = TokenTracker()\n    return _tracker\ndef track_api_call(model, input_tokens, output_tokens, feature=\"unknown\"):\n    \"\"\"Track an API call.\"\"\"\n    tracker = get_tracker()\n    return tracker.track_call(model, input_tokens, output_tokens, feature)",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "track_api_call",
+        "kind": 2,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "def track_api_call(model, input_tokens, output_tokens, feature=\"unknown\"):\n    \"\"\"Track an API call.\"\"\"\n    tracker = get_tracker()\n    return tracker.track_call(model, input_tokens, output_tokens, feature)\ndef print_summary():\n    \"\"\"Print usage summary.\"\"\"\n    tracker = get_tracker()\n    tracker.print_summary()\ndef save_session():\n    \"\"\"Save session data.\"\"\"",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "print_summary",
+        "kind": 2,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "def print_summary():\n    \"\"\"Print usage summary.\"\"\"\n    tracker = get_tracker()\n    tracker.print_summary()\ndef save_session():\n    \"\"\"Save session data.\"\"\"\n    tracker = get_tracker()\n    return tracker.save_session()",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "save_session",
+        "kind": 2,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "def save_session():\n    \"\"\"Save session data.\"\"\"\n    tracker = get_tracker()\n    return tracker.save_session()",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "PRICING",
+        "kind": 5,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "PRICING = {\n    \"gpt-4\": {\n        \"input\": 0.03 / 1000,   # per token\n        \"output\": 0.06 / 1000,  # per token\n    },\n    \"gpt-3.5-turbo\": {\n        \"input\": 0.0015 / 1000,\n        \"output\": 0.002 / 1000,\n    }\n}",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "USD_TO_INR",
+        "kind": 5,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "USD_TO_INR = 83.0\nTRACKER_FILE = Path(__file__).parent.parent / \"reports\" / \"token_usage.json\"\nclass TokenTracker:\n    def __init__(self):\n        self.session_usage = {\n            \"start_time\": datetime.now().isoformat(),\n            \"total_input_tokens\": 0,\n            \"total_output_tokens\": 0,\n            \"total_cost_usd\": 0.0,\n            \"total_cost_inr\": 0.0,",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "TRACKER_FILE",
+        "kind": 5,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "TRACKER_FILE = Path(__file__).parent.parent / \"reports\" / \"token_usage.json\"\nclass TokenTracker:\n    def __init__(self):\n        self.session_usage = {\n            \"start_time\": datetime.now().isoformat(),\n            \"total_input_tokens\": 0,\n            \"total_output_tokens\": 0,\n            \"total_cost_usd\": 0.0,\n            \"total_cost_inr\": 0.0,\n            \"api_calls\": []",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "_tracker",
+        "kind": 5,
+        "importPath": "engine.token_tracker",
+        "description": "engine.token_tracker",
+        "peekOfCode": "_tracker = None\ndef get_tracker():\n    \"\"\"Get or create global tracker instance.\"\"\"\n    global _tracker\n    if _tracker is None:\n        _tracker = TokenTracker()\n    return _tracker\ndef track_api_call(model, input_tokens, output_tokens, feature=\"unknown\"):\n    \"\"\"Track an API call.\"\"\"\n    tracker = get_tracker()",
+        "detail": "engine.token_tracker",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "kind": 2,
+        "importPath": "engine.validator",
+        "description": "engine.validator",
+        "peekOfCode": "def run(page, validations: list) -> list[dict]:\n    results = []\n    for v in validations:\n        vtype = v[\"type\"]\n        try:\n            if vtype == \"url_contains\":\n                assert v[\"value\"] in page.url, f\"URL '{page.url}' missing '{v['value']}'\"\n            elif vtype == \"element_visible\":\n                assert page.locator(v[\"selector\"]).is_visible()\n            elif vtype == \"text_present\":",
+        "detail": "engine.validator",
+        "documentation": {}
+    },
+    {
+        "label": "generate",
+        "kind": 2,
+        "importPath": "reports.html_reporter",
+        "description": "reports.html_reporter",
+        "peekOfCode": "def generate(all_reports: list[dict], surf_reports: list[dict] = None):\n    def badge(status):\n        color = \"#22c55e\" if status == \"pass\" else \"#ef4444\"\n        return f'<span style=\"background:{color};color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600\">{status.upper()}</span>'\n    def sev_badge(sev):\n        colors = {\"critical\": \"#7c3aed\", \"high\": \"#ef4444\", \"medium\": \"#f97316\", \"low\": \"#eab308\"}\n        c = colors.get(sev.lower(), \"#6b7280\")\n        return f'<span style=\"background:{c};color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600\">{sev.upper()}</span>'\n    def flow_icon(action):\n        icons = {",
+        "detail": "reports.html_reporter",
+        "documentation": {}
+    },
+    {
+        "label": "REPORTS_DIR",
+        "kind": 5,
+        "importPath": "reports.html_reporter",
+        "description": "reports.html_reporter",
+        "peekOfCode": "REPORTS_DIR = Path(__file__).parent\ndef generate(all_reports: list[dict], surf_reports: list[dict] = None):\n    def badge(status):\n        color = \"#22c55e\" if status == \"pass\" else \"#ef4444\"\n        return f'<span style=\"background:{color};color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600\">{status.upper()}</span>'\n    def sev_badge(sev):\n        colors = {\"critical\": \"#7c3aed\", \"high\": \"#ef4444\", \"medium\": \"#f97316\", \"low\": \"#eab308\"}\n        c = colors.get(sev.lower(), \"#6b7280\")\n        return f'<span style=\"background:{c};color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600\">{sev.upper()}</span>'\n    def flow_icon(action):",
+        "detail": "reports.html_reporter",
+        "documentation": {}
+    },
+    {
+        "label": "save",
+        "kind": 2,
+        "importPath": "reports.report_generator",
+        "description": "reports.report_generator",
+        "peekOfCode": "def save(template_name: str, step_results: list, validation_results: list, security_findings: list = None):\n    security_findings = security_findings or []\n    passed = sum(1 for r in step_results + validation_results if r[\"status\"] == \"pass\")\n    total = len(step_results) + len(validation_results)\n    critical = [f for f in security_findings if f.get(\"severity\") == \"critical\"]\n    high     = [f for f in security_findings if f.get(\"severity\") == \"high\"]\n    medium   = [f for f in security_findings if f.get(\"severity\") == \"medium\"]\n    report = {\n        \"template\": template_name,\n        \"timestamp\": datetime.now().isoformat(),",
+        "detail": "reports.report_generator",
+        "documentation": {}
+    },
+    {
+        "label": "REPORTS_DIR",
+        "kind": 5,
+        "importPath": "reports.report_generator",
+        "description": "reports.report_generator",
+        "peekOfCode": "REPORTS_DIR = Path(__file__).parent\ndef save(template_name: str, step_results: list, validation_results: list, security_findings: list = None):\n    security_findings = security_findings or []\n    passed = sum(1 for r in step_results + validation_results if r[\"status\"] == \"pass\")\n    total = len(step_results) + len(validation_results)\n    critical = [f for f in security_findings if f.get(\"severity\") == \"critical\"]\n    high     = [f for f in security_findings if f.get(\"severity\") == \"high\"]\n    medium   = [f for f in security_findings if f.get(\"severity\") == \"medium\"]\n    report = {\n        \"template\": template_name,",
+        "detail": "reports.report_generator",
+        "documentation": {}
+    },
+    {
+        "label": "check",
+        "kind": 2,
+        "importPath": "security.headers",
+        "description": "security.headers",
+        "peekOfCode": "def check(page) -> list[dict]:\n    \"\"\"\n    Navigate to the current page URL and inspect response headers.\n    Returns a list of findings (missing or weak headers).\n    \"\"\"\n    findings = []\n    url = page.url\n    # Intercept the response headers via a fresh request\n    response = page.request.get(url)\n    headers = {k.lower(): v for k, v in response.headers.items()}",
+        "detail": "security.headers",
+        "documentation": {}
+    },
+    {
+        "label": "REQUIRED_HEADERS",
+        "kind": 5,
+        "importPath": "security.headers",
+        "description": "security.headers",
+        "peekOfCode": "REQUIRED_HEADERS = {\n    \"content-security-policy\": \"Prevents XSS and data injection attacks\",\n    \"x-frame-options\": \"Prevents clickjacking\",\n    \"x-content-type-options\": \"Prevents MIME sniffing\",\n    \"strict-transport-security\": \"Enforces HTTPS\",\n    \"referrer-policy\": \"Controls referrer information\",\n    \"permissions-policy\": \"Controls browser feature access\",\n}\ndef check(page) -> list[dict]:\n    \"\"\"",
+        "detail": "security.headers",
+        "documentation": {}
+    },
+    {
+        "label": "check",
+        "kind": 2,
+        "importPath": "security.sqli",
+        "description": "security.sqli",
+        "peekOfCode": "def check(page) -> list[dict]:\n    \"\"\"\n    Inject SQL payloads into all visible inputs.\n    Detects errors or anomalous responses that indicate SQLi vulnerability.\n    \"\"\"\n    findings = []\n    url = page.url\n    selectors = get_input_selectors(page)\n    if not selectors:\n        log.info(\"SQLi: no input fields found on page\")",
+        "detail": "security.sqli",
+        "documentation": {}
+    },
+    {
+        "label": "PAYLOADS",
+        "kind": 5,
+        "importPath": "security.sqli",
+        "description": "security.sqli",
+        "peekOfCode": "PAYLOADS = [\n    \"'\",\n    \"' OR '1'='1\",\n    \"' OR '1'='1' --\",\n    \"\\\" OR \\\"1\\\"=\\\"1\",\n    \"1; DROP TABLE users--\",\n    \"' UNION SELECT null--\",\n]\ndef check(page) -> list[dict]:\n    \"\"\"",
+        "detail": "security.sqli",
+        "documentation": {}
+    },
+    {
+        "label": "check",
+        "kind": 2,
+        "importPath": "security.xss",
+        "description": "security.xss",
+        "peekOfCode": "def check(page) -> list[dict]:\n    \"\"\"\n    Inject XSS payloads into all visible inputs on the current page.\n    Returns findings where payload is reflected in the response.\n    \"\"\"\n    findings = []\n    url = page.url\n    selectors = get_input_selectors(page)\n    if not selectors:\n        log.info(\"XSS: no input fields found on page\")",
+        "detail": "security.xss",
+        "documentation": {}
+    },
+    {
+        "label": "PAYLOADS",
+        "kind": 5,
+        "importPath": "security.xss",
+        "description": "security.xss",
+        "peekOfCode": "PAYLOADS = [\n    \"<script>alert('xss')</script>\",\n    '\"><img src=x onerror=alert(1)>',\n    \"';alert('xss')//\",\n    \"<svg onload=alert(1)>\",\n]\ndef check(page) -> list[dict]:\n    \"\"\"\n    Inject XSS payloads into all visible inputs on the current page.\n    Returns findings where payload is reflected in the response.",
+        "detail": "security.xss",
+        "documentation": {}
+    },
+    {
+        "label": "substitute",
+        "kind": 2,
+        "importPath": "utils.helpers",
+        "description": "utils.helpers",
+        "peekOfCode": "def substitute(text: str, variables: dict) -> str:\n    \"\"\"Replace {{key}} placeholders with values from variables dict.\"\"\"\n    for k, v in variables.items():\n        text = text.replace(f\"{{{{{k}}}}}\", str(v))\n    return text\ndef is_error_page(content: str) -> bool:\n    \"\"\"Detect common DB/server error strings in page content.\"\"\"\n    patterns = [\n        r\"sql syntax\", r\"mysql_fetch\", r\"ORA-\\d+\", r\"pg_query\",\n        r\"unclosed quotation\", r\"syntax error\", r\"warning: mysql\",",
+        "detail": "utils.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "is_error_page",
+        "kind": 2,
+        "importPath": "utils.helpers",
+        "description": "utils.helpers",
+        "peekOfCode": "def is_error_page(content: str) -> bool:\n    \"\"\"Detect common DB/server error strings in page content.\"\"\"\n    patterns = [\n        r\"sql syntax\", r\"mysql_fetch\", r\"ORA-\\d+\", r\"pg_query\",\n        r\"unclosed quotation\", r\"syntax error\", r\"warning: mysql\",\n        r\"division by zero\", r\"stack trace\", r\"internal server error\",\n    ]\n    lower = content.lower()\n    return any(re.search(p, lower) for p in patterns)\ndef truncate(text: str, max_len: int = 120) -> str:",
+        "detail": "utils.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "truncate",
+        "kind": 2,
+        "importPath": "utils.helpers",
+        "description": "utils.helpers",
+        "peekOfCode": "def truncate(text: str, max_len: int = 120) -> str:\n    return text if len(text) <= max_len else text[:max_len] + \"...\"",
+        "detail": "utils.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "get_input_selectors",
+        "kind": 2,
+        "importPath": "utils.selectors",
+        "description": "utils.selectors",
+        "peekOfCode": "def get_input_selectors(page: Page) -> list[str]:\n    \"\"\"Return CSS selectors for all visible, enabled text-like inputs on the page.\"\"\"\n    handles = page.query_selector_all(\n        \"input:not([type=hidden]):not([type=submit]):not([type=button]):not([type=checkbox]):not([type=radio]), textarea\"\n    )\n    selectors = []\n    for h in handles:\n        id_ = h.get_attribute(\"id\")\n        name = h.get_attribute(\"name\")\n        if id_:",
+        "detail": "utils.selectors",
+        "documentation": {}
+    },
+    {
+        "label": "load_chrome_recording",
+        "kind": 2,
+        "importPath": "chrome_recording_runner",
+        "description": "chrome_recording_runner",
+        "peekOfCode": "def load_chrome_recording(recording_file):\n    \"\"\"Load Chrome extension recording\"\"\"\n    with open(recording_file, 'r') as f:\n        return json.load(f)\ndef execute_chrome_recording(recording_file, callback_url=None):\n    \"\"\"Execute Chrome extension recording with security testing\"\"\"\n    print(\"=\"*70)\n    print(\"🤖 CHROME RECORDING RUNNER WITH SECURITY TESTING\")\n    print(\"=\"*70)\n    recording = load_chrome_recording(recording_file)",
+        "detail": "chrome_recording_runner",
+        "documentation": {}
+    },
+    {
+        "label": "execute_chrome_recording",
+        "kind": 2,
+        "importPath": "chrome_recording_runner",
+        "description": "chrome_recording_runner",
+        "peekOfCode": "def execute_chrome_recording(recording_file, callback_url=None):\n    \"\"\"Execute Chrome extension recording with security testing\"\"\"\n    print(\"=\"*70)\n    print(\"🤖 CHROME RECORDING RUNNER WITH SECURITY TESTING\")\n    print(\"=\"*70)\n    recording = load_chrome_recording(recording_file)\n    workflow_id = os.getenv('WORKFLOW_ID', 'N/A')\n    print(f\"\\nWorkflow: {recording.get('workflowName', 'Untitled')}\")\n    print(f\"Workflow ID: {workflow_id}\")\n    print(f\"Actions: {recording.get('actionCount', 0)}\")",
+        "detail": "chrome_recording_runner",
+        "documentation": {}
+    }
+]

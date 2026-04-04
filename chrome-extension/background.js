@@ -1,6 +1,6 @@
 // Background script - Handles API communication
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://api-richbot.btacode.com';
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

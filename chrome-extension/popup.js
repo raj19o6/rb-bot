@@ -1,5 +1,5 @@
 // Popup script - Manifest V3 compatible
-const API_BASE = 'http://127.0.0.1:8000';
+const API_URL = 'https://api-richbot.btacode.com';
 
 let isRecording = false;
 let sessionId = null;

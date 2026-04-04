@@ -110,29 +110,7 @@ EOF
         
         stage('Upload Results') {
             steps {
-                echo "Uploading results to ${params.CALLBACK_URL}"
-                sh '''
-                    RESULT_FILE=$(ls reports/*_results.json 2>/dev/null | head -1)
-                    
-                    if [ -f "$RESULT_FILE" ]; then
-                        echo "Found result file: $RESULT_FILE"
-                        
-                        # Add workflow_id to the report
-                        jq --arg wid "${WORKFLOW_ID}" '. + {workflow_id: $wid}' "$RESULT_FILE" > /tmp/report_with_id.json
-                        
-                        # Send to callback URL
-                        curl -X POST "${CALLBACK_URL}" \
-                             -H "Content-Type: application/json" \
-                             -d @/tmp/report_with_id.json \
-                             -w "\\nHTTP Status: %{http_code}\\n"
-                        
-                        echo "Results uploaded successfully"
-                    else
-                        echo "ERROR: No results file found in reports/"
-                        ls -la reports/ || echo "Reports directory not found"
-                        exit 1
-                    fi
-                '''
+                echo "Report already sent via callback in Execute Bot stage. Skipping."
             }
         }
     }

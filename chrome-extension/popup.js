@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('loginBtn').addEventListener('click', login);
   document.getElementById('recordBtn').addEventListener('click', startRecording);
   document.getElementById('stopBtn').addEventListener('click', stopRecording);
+  document.getElementById('logoutBtn').addEventListener('click', logout);
 });
 
 function showLogin() {
@@ -37,7 +38,23 @@ function showLogin() {
 function showRecorder(user) {
   document.getElementById('loginSection').style.display = 'none';
   document.getElementById('recorderSection').style.display = 'block';
-  document.getElementById('userInfo').textContent = `Logged in as: ${user.email}`;
+  document.getElementById('userInfo').textContent = user.email;
+  document.getElementById('userAvatar').textContent = (user.email || '?')[0].toUpperCase();
+}
+
+function logout() {
+  chrome.storage.local.remove(['authToken', 'refreshToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName'], () => {
+    showLogin();
+  });
+}
+
+function showToast(message, type = 'info') {
+  const toasts = document.querySelectorAll('#toast');
+  const toast = toasts[toasts.length - 1];
+  toast.textContent = message;
+  toast.className = `toast-${type}`;
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 3500);
 }
 
 function login() {
@@ -45,9 +62,13 @@ function login() {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    alert('Please enter email and password');
+    showToast('Please enter username and password', 'error');
     return;
   }
+
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = 'Signing in...';
+  btn.disabled = true;
 
   fetch('http://192.168.69.58:8000/auth/token/', {
     method: 'POST',
@@ -58,12 +79,10 @@ function login() {
       if (!response.ok) throw new Error('Invalid credentials');
       return response.json();
     })
+    .then(data => data)
     .then(data => {
       const tokenParts = data.access.split('.');
       const payload = JSON.parse(atob(tokenParts[1]));
-
-      console.log('JWT Token Decoded:', payload);
-
       const user = { email: email, userId: payload.user_id };
       chrome.storage.local.set({
         authToken: data.access,
@@ -71,7 +90,12 @@ function login() {
         user: user
       }, () => showRecorder(user));
     })
-    .catch(error => alert('Login failed: ' + error.message));
+    .catch(error => {
+      showToast('Login failed: ' + error.message, 'error');
+      const btn = document.getElementById('loginBtn');
+      btn.innerHTML = '<span>🔐</span> Sign In';
+      btn.disabled = false;
+    });
 }
 
 async function startRecording() {
@@ -221,8 +245,8 @@ async function stopRecording() {
     isRecording = false;
     updateUI();
 
-    document.getElementById('status').textContent = `Recorded ${actions.length} actions`;
-    document.getElementById('actionCount').textContent = `Actions: ${actions.length}`;
+    document.getElementById('actionCount').textContent = actions.length;
+    showToast(`Recorded ${actions.length} actions`, 'info');
 
     if (actions.length > 0) {
       const recording = {
@@ -240,7 +264,7 @@ async function stopRecording() {
 
         if (result.authToken) {
           try {
-            document.getElementById('status').textContent = 'Uploading to server...';
+            showToast('Uploading to server...', 'info');
 
             const response = await fetch('https://8nh48kbv-8000.inc1.devtunnels.ms/api/v1/workflows/save/', {
               method: 'POST',
@@ -253,14 +277,14 @@ async function stopRecording() {
 
             if (response.ok) {
               const data = await response.json();
-              document.getElementById('status').textContent = `Saved! ID: ${data.workflow_id || data.id}`;
+              showToast(`✅ Saved! ID: ${(data.workflow_id || data.id || '').toString().slice(0, 8)}...`, 'success');
               console.log('Workflow saved:', data);
             } else {
-              document.getElementById('status').textContent = `Upload failed: ${response.status}`;
+              showToast(`Upload failed (${response.status}), downloading...`, 'error');
               downloadJSON(recording);
             }
           } catch (error) {
-            document.getElementById('status').textContent = `Error: ${error.message}`;
+            showToast(`Error: ${error.message}`, 'error');
             downloadJSON(recording);
           }
         } else {
@@ -268,7 +292,7 @@ async function stopRecording() {
         }
       });
     } else {
-      document.getElementById('status').textContent = 'No actions recorded';
+      showToast('No actions were recorded', 'error');
     }
   } catch (e) {
     alert('Error: ' + e.message);
@@ -283,23 +307,29 @@ function downloadJSON(recording) {
   a.download = `${recording.workflowName.replace(/\s+/g, '_')}_${recording.sessionId}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  document.getElementById('status').textContent = 'Downloaded locally';
+  showToast('Downloaded locally', 'info');
 }
 
 function updateUI() {
-  const status = document.getElementById('status');
+  const dot = document.getElementById('statusDot');
+  const statusText = document.getElementById('statusText');
+  const badge = document.getElementById('headerBadge');
   const recordBtn = document.getElementById('recordBtn');
   const stopBtn = document.getElementById('stopBtn');
 
   if (isRecording) {
-    status.className = 'status recording';
-    status.textContent = 'Recording...';
+    dot.className = 'status-dot dot-recording';
+    statusText.innerHTML = '<strong>Recording</strong> in progress...';
+    badge.className = 'header-badge badge-recording';
+    badge.textContent = '● REC';
     recordBtn.style.display = 'none';
-    stopBtn.style.display = 'block';
+    stopBtn.style.display = 'flex';
   } else {
-    status.className = 'status idle';
-    status.textContent = 'Ready to record';
-    recordBtn.style.display = 'block';
+    dot.className = 'status-dot dot-idle';
+    statusText.innerHTML = '<strong>Ready</strong> to record';
+    badge.className = 'header-badge badge-idle';
+    badge.textContent = 'IDLE';
+    recordBtn.style.display = 'flex';
     stopBtn.style.display = 'none';
   }
 }
@@ -313,7 +343,7 @@ setInterval(async () => {
       });
 
       if (results && results[0]) {
-        document.getElementById('actionCount').textContent = `Actions: ${results[0].result}`;
+        document.getElementById('actionCount').textContent = results[0].result;
       }
     } catch (e) { }
   }

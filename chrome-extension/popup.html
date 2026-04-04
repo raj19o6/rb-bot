@@ -2,126 +2,392 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      width: 300px;
-      padding: 15px;
-      font-family: Arial, sans-serif;
+      width: 340px;
+      min-height: 200px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f13;
+      color: #e2e8f0;
     }
 
+    /* ── Header ── */
     .header {
-      text-align: center;
-      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid #1e1e2e;
     }
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #6366f1;
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
     }
 
-    .status {
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 15px;
-      text-align: center;
+    .logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #fff;
     }
 
-    .recording {
-      background: #fee;
-      color: #c00;
-      animation: pulse 1s infinite;
+    .logo-sub {
+      font-size: 10px;
+      color: #6b7280;
+      letter-spacing: 0.3px;
+      margin-top: 1px;
     }
 
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.5;
-      }
+    .header-badge {
+      margin-left: auto;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
 
-    .idle {
-      background: #efe;
-      color: #060;
+    .badge-idle {
+      background: #1a2e1a;
+      color: #4ade80;
+      border: 1px solid #166534;
     }
 
-    button {
+    .badge-recording {
+      background: #2e1a1a;
+      color: #f87171;
+      border: 1px solid #991b1b;
+      animation: badgePulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ── Login Section ── */
+    #loginSection {
+      display: none;
+      padding: 20px 18px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
-      padding: 12px;
-      margin: 5px 0;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
+      padding: 9px 12px;
+      background: #1a1a24;
+      border: 1px solid #2d2d3d;
+      border-radius: 7px;
+      color: #e2e8f0;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
     }
 
-    .record-btn {
-      background: #ef4444;
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #6366f1;
+    }
+
+    input::placeholder {
+      color: #4b5563;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      transition: opacity 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      margin-top: 14px;
+    }
+
+    .btn-primary:hover { opacity: 0.9; }
+
+    .btn-record {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
       color: white;
     }
 
-    .stop-btn {
+    .btn-record:hover { opacity: 0.9; }
+
+    .btn-stop {
+      background: #1a1a24;
+      color: #e2e8f0;
+      border: 1px solid #2d2d3d;
+    }
+
+    .btn-stop:hover { border-color: #6366f1; }
+
+    .btn-logout {
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid #1e1e2e;
+      font-size: 11px;
+      padding: 7px;
+      margin-top: 6px;
+    }
+
+    .btn-logout:hover { color: #f87171; border-color: #f87171; }
+
+    /* ── Recorder Section ── */
+    #recorderSection {
+      display: none;
+      padding: 16px 18px;
+    }
+
+    /* ── Status Bar ── */
+    .status-bar {
+      background: #1a1a24;
+      border: 1px solid #2d2d3d;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-idle { background: #4ade80; }
+
+    .dot-recording {
+      background: #f87171;
+      animation: dotPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: #9ca3af;
+      flex: 1;
+    }
+
+    .status-text strong {
+      color: #e2e8f0;
+      font-weight: 600;
+    }
+
+    /* ── Action Counter ── */
+    .counter-pill {
       background: #6366f1;
       color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      min-width: 28px;
+      text-align: center;
     }
 
-    .login-form {
+    /* ── Workflow Input ── */
+    .workflow-input-wrap {
+      margin-bottom: 12px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: #1e1e2e;
+      margin: 14px 0;
+    }
+
+    /* ── User Info ── */
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-avatar {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    #userInfo {
+      font-size: 11px;
+      color: #6b7280;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ── Toast ── */
+    #toast {
       display: none;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-    }
-
-    .info {
-      font-size: 12px;
-      color: #666;
       margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .toast-success {
+      background: #1a2e1a;
+      color: #4ade80;
+      border: 1px solid #166534;
+    }
+
+    .toast-error {
+      background: #2e1a1a;
+      color: #f87171;
+      border: 1px solid #991b1b;
+    }
+
+    .toast-info {
+      background: #1a1a2e;
+      color: #818cf8;
+      border: 1px solid #3730a3;
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Header -->
   <div class="header">
-    <div class="logo">RB-BOT</div>
+    <div class="logo-icon">🤖</div>
+    <div>
+      <div class="logo-text">RB-BOT</div>
+      <div class="logo-sub">Workflow Recorder</div>
+    </div>
+    <div id="headerBadge" class="header-badge badge-idle">IDLE</div>
   </div>
 
-  <div id="loginSection" class="login-form">
-    <input type="text" id="email" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button id="loginBtn">Login</button>
-  </div>
+  <!-- Login -->
+  <div id="loginSection">
+    <p class="section-label">Sign in to continue</p>
 
-  <div id="recorderSection" style="display:none;">
-    <div id="status" class="status idle">
-      Ready to record
+    <div class="input-group">
+      <label>Username</label>
+      <input type="text" id="email" placeholder="Enter username">
     </div>
 
-    <button id="recordBtn" class="record-btn">
-      Start Recording
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter password">
+    </div>
+
+    <button id="loginBtn" class="btn btn-primary">
+      <span>🔐</span> Sign In
     </button>
 
-    <button id="stopBtn" class="stop-btn" style="display:none;">
-      Stop Recording
-    </button>
+    <div id="toast"></div>
+  </div>
 
-    <div class="info">
-      <div id="workflowName" style="margin-bottom: 10px;">
-        <input type="text" id="workflowNameInput" placeholder="Workflow name" style="width: 100%;">
+  <!-- Recorder -->
+  <div id="recorderSection">
+
+    <!-- Status -->
+    <div class="status-bar">
+      <div id="statusDot" class="status-dot dot-idle"></div>
+      <div class="status-text" id="statusText"><strong>Ready</strong> to record</div>
+      <div class="counter-pill" id="actionCount">0</div>
+    </div>
+
+    <!-- Workflow Name -->
+    <div class="workflow-input-wrap">
+      <div class="input-group">
+        <label>Workflow Name</label>
+        <input type="text" id="workflowNameInput" placeholder="e.g. Login Flow">
       </div>
-      <div id="actionCount">Actions: 0</div>
-      <div id="userInfo"></div>
     </div>
+
+    <!-- Buttons -->
+    <button id="recordBtn" class="btn btn-record">
+      <span>⏺</span> Start Recording
+    </button>
+
+    <button id="stopBtn" class="btn btn-stop" style="display:none;">
+      <span>⏹</span> Stop & Save
+    </button>
+
+    <div id="toast"></div>
+
+    <div class="divider"></div>
+
+    <!-- User Row -->
+    <div class="user-row">
+      <div class="user-avatar" id="userAvatar">?</div>
+      <div id="userInfo">Not logged in</div>
+      <button id="logoutBtn" class="btn btn-logout" style="width:auto; padding: 5px 10px;">Logout</button>
+    </div>
+
   </div>
 
   <script src="popup.js"></script>

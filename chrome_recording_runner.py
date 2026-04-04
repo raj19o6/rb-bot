@@ -12,7 +12,7 @@ from security import headers, xss, sqli
 from reports import html_reporter
 from engine.ai_testgen import generate_security_testcases
 from engine.token_tracker import print_summary, save_session
-from config.settings import OPENAI_API_KEY
+from config.settings import GROQ_API_KEY
 from datetime import datetime
 import requests
 
@@ -239,7 +239,7 @@ def execute_chrome_recording(recording_file, callback_url=None):
         print("="*70)
         
         ai_testcases = []
-        if OPENAI_API_KEY and len(security_findings) > 0:
+        if GROQ_API_KEY and len(security_findings) > 0:
             try:
                 print(f"\n  Generating test cases for {len(security_findings)} security issues...")
                 feature_type = recording.get('workflowName', 'workflow')
@@ -251,8 +251,8 @@ def execute_chrome_recording(recording_file, callback_url=None):
                 print(f"  Generated {len(ai_testcases)} AI test cases")
             except Exception as e:
                 print(f"  ⚠️  AI test generation failed: {e}")
-        elif not OPENAI_API_KEY:
-            print("\n  ⚠️  OpenAI API key not configured. Skipping AI test generation.")
+        elif not GROQ_API_KEY:
+            print("\n  ⚠️  Groq API key not configured. Skipping AI test generation.")
         else:
             print("\n  ℹ️  No security issues found. Skipping AI test generation.")
         
@@ -306,7 +306,7 @@ def execute_chrome_recording(recording_file, callback_url=None):
         html_path = html_reporter.generate([report_data], [])
         print(f"  HTML Report: {html_path}")
         
-        if OPENAI_API_KEY:
+        if GROQ_API_KEY:
             print_summary()
             save_session()
         

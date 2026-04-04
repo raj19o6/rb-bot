@@ -5,11 +5,11 @@ pipeline {
         string(name: 'WORKFLOW_ID', defaultValue: '', description: 'Workflow ID from database')
         string(name: 'WORKFLOW_JSON_URL', defaultValue: '', description: 'URL to download workflow JSON')
         string(name: 'CALLBACK_URL', defaultValue: '', description: 'API endpoint to send results back')
-        password(name: 'OPENAI_API_KEY', defaultValue: '', description: 'OpenAI API Key for AI test generation')
+        password(name: 'GROQ_API_KEY', defaultValue: '', description: 'Groq API Key for AI test generation')
     }
     
     environment {
-        OPENAI_API_KEY = "${params.OPENAI_API_KEY}"
+        GROQ_API_KEY = "${params.GROQ_API_KEY}"
         WORKFLOW_ID = "${params.WORKFLOW_ID}"
         CALLBACK_URL = "${params.CALLBACK_URL}"
         BROWSER = 'chromium'
@@ -90,7 +90,7 @@ EOF
             steps {
                 echo 'Setting up environment variables...'
                 sh '''
-                    echo "OPENAI_API_KEY=${OPENAI_API_KEY}" > .env
+                    echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
                     echo "BROWSER=chromium" >> .env
                     echo "HEADLESS=true" >> .env
                     echo "TIMEOUT=10000" >> .env

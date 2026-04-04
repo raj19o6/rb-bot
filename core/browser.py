@@ -10,7 +10,11 @@ def get_page():
     _pw = sync_playwright().start()
     launcher = getattr(_pw, BROWSER)
     _browser = launcher.launch(headless=HEADLESS, slow_mo=SLOW_MO)
-    ctx = _browser.new_context()
+    ctx = _browser.new_context(
+        extra_http_headers={
+            'x-tunnel-skip-browser-warning': '1'
+        }
+    )
     page = ctx.new_page()
     page.set_default_timeout(TIMEOUT)
     return page

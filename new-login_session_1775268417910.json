@@ -1,0 +1,85 @@
+{
+  "workflowName": "new-login",
+  "sessionId": "session_1775268417910",
+  "actions": [
+    {
+      "selector": "#username",
+      "text": "",
+      "timestamp": 1775268419776,
+      "type": "click",
+      "url": "https://richbot.btacode.com/"
+    },
+    {
+      "selector": "#username",
+      "timestamp": 1775268423189,
+      "type": "fill",
+      "url": "https://richbot.btacode.com/",
+      "value": "admin"
+    },
+    {
+      "selector": "button:has-text(\"Sign In\")",
+      "text": "Sign In",
+      "timestamp": 1775268425809,
+      "type": "click",
+      "url": "https://richbot.btacode.com/"
+    },
+    {
+      "selector": "#password",
+      "timestamp": 1775268425887,
+      "type": "fill",
+      "url": "https://richbot.btacode.com/",
+      "value": "Welcome@1"
+    },
+    {
+      "selector": "a.group.flex",
+      "text": "Roles",
+      "timestamp": 1775268431513,
+      "type": "click",
+      "url": "https://richbot.btacode.com/dashboard/admin"
+    },
+    {
+      "selector": "button:has-text(\"New Role\")",
+      "text": " New Role",
+      "timestamp": 1775268433444,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "#role-name",
+      "text": "",
+      "timestamp": 1775268435059,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "#role-name",
+      "timestamp": 1775268438416,
+      "type": "fill",
+      "url": "https://richbot.btacode.com/roles",
+      "value": "deded"
+    },
+    {
+      "selector": "span.flex.h-4",
+      "text": "",
+      "timestamp": 1775268439543,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "span.flex.h-4",
+      "text": "",
+      "timestamp": 1775268440711,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "button:has-text(\"Create Role\")",
+      "text": "Create Role",
+      "timestamp": 1775268442194,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    }
+  ],
+  "recordedAt": "2026-04-04T02:07:26.181Z",
+  "actionCount": 11
+}

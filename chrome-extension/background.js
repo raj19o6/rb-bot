@@ -51,7 +51,6 @@ async function uploadWorkflow(sessionId, actions) {
 
   chrome.notifications.create({
     type: 'basic',
-    iconUrl: 'icons/icon48.png',
     title: 'RB-BOT',
     message: `Workflow saved! ${actions.length} actions recorded.`
   });
@@ -60,10 +59,10 @@ async function uploadWorkflow(sessionId, actions) {
 }
 
 async function login(email, password) {
-  const response = await fetch(`${API_URL}/api/auth/login`, {
+  const response = await fetch(`${API_URL}/auth/token/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ username: email, password: password })
   });
 
   if (!response.ok) {
@@ -72,8 +71,9 @@ async function login(email, password) {
 
   const data = await response.json();
   await chrome.storage.local.set({
-    authToken: data.token,
-    user: data.user
+    authToken: data.access,
+    refreshToken: data.refresh,
+    user: { username: email }
   });
 
   return data;

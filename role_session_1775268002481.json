@@ -1,0 +1,64 @@
+{
+  "workflowName": "role",
+  "sessionId": "session_1775268002481",
+  "actions": [
+    {
+      "selector": "button.inline-flex.items-center.justify-center.whitespace-nowrap.rounded-md.text-sm.font-medium.transition-all.disabled:pointer-events-none.disabled:opacity-50.[&_svg]:pointer-events-none.[&_svg:not([class*='size-'])]:size-4.shrink-0.[&_svg]:shrink-0.outline-none.focus-visible:border-ring.focus-visible:ring-ring/50.focus-visible:ring-[3px].aria-invalid:ring-destructive/20.dark:aria-invalid:ring-destructive/40.aria-invalid:border-destructive.bg-primary.text-primary-foreground.hover:bg-primary/90.h-9.px-4.py-2.has-[>svg]:px-3.gap-2",
+      "text": " New Role",
+      "timestamp": 1775268004095,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "button:has-text(\"New Role\")",
+      "text": " New Role",
+      "timestamp": 1775268004098,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "#role-name",
+      "text": "",
+      "timestamp": 1775268004912,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "span.truncate.flex-1",
+      "text": "Can add api test logs",
+      "timestamp": 1775268006112,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "#role-name",
+      "timestamp": 1775268006549,
+      "type": "fill",
+      "url": "https://richbot.btacode.com/roles",
+      "value": "asdasd"
+    },
+    {
+      "selector": "span.truncate.flex-1",
+      "text": "Can change api test logs",
+      "timestamp": 1775268007013,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "button.inline-flex.items-center.justify-center.gap-2.whitespace-nowrap.rounded-md.text-sm.font-medium.transition-all.disabled:pointer-events-none.disabled:opacity-50.[&_svg]:pointer-events-none.[&_svg:not([class*='size-'])]:size-4.[&_svg]:shrink-0.outline-none.focus-visible:border-ring.focus-visible:ring-ring/50.focus-visible:ring-[3px].aria-invalid:ring-destructive/20.dark:aria-invalid:ring-destructive/40.aria-invalid:border-destructive.bg-primary.text-primary-foreground.hover:bg-primary/90.h-9.px-4.py-2.has-[>svg]:px-3.flex-1",
+      "text": "Create Role",
+      "timestamp": 1775268008595,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    },
+    {
+      "selector": "button:has-text(\"Create Role\")",
+      "text": "Create Role",
+      "timestamp": 1775268008595,
+      "type": "click",
+      "url": "https://richbot.btacode.com/roles"
+    }
+  ],
+  "recordedAt": "2026-04-04T02:00:14.000Z",
+  "actionCount": 8
+}

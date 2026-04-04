@@ -1,11 +1,15 @@
 # RB-BOT Project Rules
 
-## Documentation Rules
+## Documentation Rules - STRICTLY ENFORCED
 
-- Do NOT create or modify markdown (.md) files unless explicitly requested
-- Do NOT generate README files automatically
-- Do NOT create documentation files without user confirmation
-- Focus on code implementation, not documentation
+- NEVER create or modify markdown (.md) files
+- NEVER generate README files
+- NEVER create documentation files
+- NEVER create guide files
+- NEVER create comparison files
+- NEVER create summary files in markdown format
+- If user asks about documentation, provide information in chat only
+- Focus ONLY on code implementation
 
 ## Code Rules
 

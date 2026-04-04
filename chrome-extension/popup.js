@@ -1,5 +1,5 @@
 // Popup script - Manifest V3 compatible
-const API_URL = 'https://api-richbot.btacode.com';
+const API_BASE = 'https://api-richbot.btacode.com';
 
 let isRecording = false;
 let sessionId = null;
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.local.get(['authToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName', 'selectedBotId', 'selectedBotName'], (result) => {
     if (result.authToken) {
       showRecorder(result.user);
-      fetchBots(result.authToken);
+      fetchBots();
 
       if (result.isRecording) {
         isRecording = true;
@@ -33,34 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('logoutBtn').addEventListener('click', logout);
 });
 
-function fetchBots(token) {
-  fetch(`${API_BASE}/api/v1/bot/`, {
-    headers: { 'Authorization': `Bearer ${token}` }
-  })
-    .then(r => r.json())
-    .then(data => {
-      const bots = Array.isArray(data) ? data : (data.results || []);
-      const select = document.getElementById('botSelect');
-      select.innerHTML = '<option value="">-- Select Bot --</option>';
-      bots.forEach(bot => {
-        const opt = document.createElement('option');
-        opt.value = bot.id;
-        opt.textContent = bot.name;
-        select.appendChild(opt);
+function fetchBots() {
+  chrome.runtime.sendMessage({ action: 'fetchBots' }, (response) => {
+    if (!response?.success) {
+      showToast('Could not load bots', 'error', 'recorder');
+      return;
+    }
+    const bots = Array.isArray(response.data) ? response.data : (response.data.results || []);
+    const select = document.getElementById('botSelect');
+    select.innerHTML = '<option value="">-- Select Bot --</option>';
+    bots.forEach(bot => {
+      const opt = document.createElement('option');
+      opt.value = bot.id;
+      opt.textContent = bot.name;
+      select.appendChild(opt);
+    });
+    chrome.storage.local.get('selectedBotId', (r) => {
+      if (r.selectedBotId) select.value = r.selectedBotId;
+    });
+    select.addEventListener('change', () => {
+      const selected = select.options[select.selectedIndex];
+      chrome.storage.local.set({
+        selectedBotId: selected.value,
+        selectedBotName: selected.textContent
       });
-      // Restore previously selected bot
-      chrome.storage.local.get('selectedBotId', (r) => {
-        if (r.selectedBotId) select.value = r.selectedBotId;
-      });
-      select.addEventListener('change', () => {
-        const selected = select.options[select.selectedIndex];
-        chrome.storage.local.set({
-          selectedBotId: selected.value,
-          selectedBotName: selected.textContent
-        });
-      });
-    })
-    .catch(() => showToast('Could not load bots', 'error', 'recorder'));
+    });
+  });
 }
 
 function showLogin() {
@@ -122,7 +120,7 @@ function login() {
         user: user
       }, () => {
         showRecorder(user);
-        fetchBots(data.access);
+        fetchBots();
       });
     })
     .catch(error => {
@@ -320,34 +318,19 @@ async function stopRecording() {
         chrome.storage.local.set({ recordings: recordings });
 
         if (result.authToken) {
-          try {
-            showToast('Uploading to server...', 'info');
-
-            const response = await fetch(`${API_BASE}/api/v1/workflows/save/`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${result.authToken}`
-              },
-              body: JSON.stringify(recording)
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-              showToast(`✅ Saved! Bot: ${data.bot_name || 'N/A'}`, 'success');
-              console.log('Workflow saved:', data);
-            } else if (response.status === 401) {
+          showToast('Uploading to server...', 'info');
+          chrome.runtime.sendMessage({ action: 'saveWorkflow', payload: recording }, (response) => {
+            if (response?.success) {
+              showToast(`✅ Saved! Bot: ${response.data.bot_name || 'N/A'}`, 'success');
+            } else if (response?.error?.includes('401')) {
               showToast('Session expired. Please login again.', 'error');
-              chrome.storage.local.remove(['authToken', 'refreshToken']);
+              chrome.storage.local.remove(['authToken', 'refreshToken', 'user']);
               showLogin();
             } else {
-              showToast(`Upload failed (${response.status}), downloading...`, 'error');
+              showToast(`Upload failed: ${response?.error || 'Unknown error'}`, 'error');
               downloadJSON(recording);
             }
-          } catch (error) {
-            showToast(`Error: ${error.message}`, 'error');
-            downloadJSON(recording);
-          }
+          });
         } else {
           downloadJSON(recording);
         }

@@ -1,80 +1,68 @@
-// Background script - Handles API communication
+const API_BASE = 'https://api-richbot.btacode.com';
 
-const API_URL = 'https://api-richbot.btacode.com';
+// Refresh access token using stored refresh token
+async function refreshAccessToken() {
+  const { refreshToken } = await chrome.storage.local.get('refreshToken');
+  if (!refreshToken) return null;
 
-// Listen for messages from content script
+  try {
+    const res = await fetch(`${API_BASE}/auth/token/refresh/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh: refreshToken })
+    });
+    if (!res.ok) throw new Error('Refresh failed');
+    const data = await res.json();
+    await chrome.storage.local.set({ authToken: data.access });
+    return data.access;
+  } catch {
+    // Refresh token expired — clear auth
+    await chrome.storage.local.remove(['authToken', 'refreshToken', 'user']);
+    return null;
+  }
+}
+
+// Fetch with automatic token refresh on 401
+async function apiFetch(url, options = {}) {
+  const { authToken } = await chrome.storage.local.get('authToken');
+  options.headers = { 'Content-Type': 'application/json', ...options.headers };
+  if (authToken) options.headers['Authorization'] = `Bearer ${authToken}`;
+
+  let res = await fetch(url, options);
+
+  if (res.status === 401) {
+    const newToken = await refreshAccessToken();
+    if (newToken) {
+      options.headers['Authorization'] = `Bearer ${newToken}`;
+      res = await fetch(url, options);
+    }
+  }
+  return res;
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'uploadRecording') {
-    uploadWorkflow(message.sessionId, message.actions)
-      .then(result => sendResponse({ status: 'success', result }))
-      .catch(error => sendResponse({ status: 'error', error: error.message }));
-    return true;
+  if (message.action === 'saveWorkflow') {
+    apiFetch(`${API_BASE}/api/v1/workflows/save/`, {
+      method: 'POST',
+      body: JSON.stringify(message.payload)
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        sendResponse({ success: true, data });
+      })
+      .catch((err) => sendResponse({ success: false, error: err.message }));
+    return true; // keep channel open for async response
   }
 
-  if (message.action === 'login') {
-    login(message.email, message.password)
-      .then(result => sendResponse({ status: 'success', result }))
-      .catch(error => sendResponse({ status: 'error', error: error.message }));
+  if (message.action === 'fetchBots') {
+    apiFetch(`${API_BASE}/api/v1/bot/available/`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        sendResponse({ success: true, data });
+      })
+      .catch((err) => sendResponse({ success: false, error: err.message }));
     return true;
   }
 });
-
-async function uploadWorkflow(sessionId, actions) {
-  const { authToken } = await chrome.storage.local.get('authToken');
-
-  if (!authToken) {
-    throw new Error('Not authenticated');
-  }
-
-  console.log('Uploading workflow:', { sessionId, actionCount: actions.length });
-
-  const response = await fetch(`${API_URL}/api/workflows`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}`
-    },
-    body: JSON.stringify({
-      session_id: sessionId,
-      actions: actions,
-      recorded_at: new Date().toISOString()
-    })
-  });
-
-  if (!response.ok) {
-    console.error('Upload failed:', response.statusText);
-    throw new Error(`Upload failed: ${response.statusText}`);
-  }
-
-  const result = await response.json();
-  console.log('Upload successful:', result);
-
-  chrome.notifications.create({
-    type: 'basic',
-    title: 'RB-BOT',
-    message: `Workflow saved! ${actions.length} actions recorded.`
-  });
-
-  return result;
-}
-
-async function login(email, password) {
-  const response = await fetch(`${API_URL}/auth/token/`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: email, password: password })
-  });
-
-  if (!response.ok) {
-    throw new Error('Login failed');
-  }
-
-  const data = await response.json();
-  await chrome.storage.local.set({
-    authToken: data.access,
-    refreshToken: data.refresh,
-    user: { username: email }
-  });
-
-  return data;
-}

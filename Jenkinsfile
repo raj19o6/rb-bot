@@ -1,151 +1,117 @@
 pipeline {
     agent any
     
+    parameters {
+        string(name: 'WORKFLOW_ID', defaultValue: '', description: 'Workflow ID from database')
+        string(name: 'WORKFLOW_JSON_URL', defaultValue: '', description: 'URL to download workflow JSON')
+        string(name: 'CALLBACK_URL', defaultValue: '', description: 'API endpoint to send results back')
+        password(name: 'OPENAI_API_KEY', defaultValue: '', description: 'OpenAI API Key for AI test generation')
+    }
+    
     environment {
-        // Credentials stored in Jenkins
-        APP_USERNAME = credentials('app-username')
-        APP_PASSWORD = credentials('app-password')
-        OPENAI_API_KEY = credentials('openai-api-key')
+        OPENAI_API_KEY = "${params.OPENAI_API_KEY}"
+        WORKFLOW_ID = "${params.WORKFLOW_ID}"
+        CALLBACK_URL = "${params.CALLBACK_URL}"
+        BROWSER = 'chromium'
+        HEADLESS = 'true'
+        TIMEOUT = '10000'
     }
     
     stages {
-        stage('Setup') {
+        stage('Checkout') {
             steps {
-                echo 'Setting up RB-BOT...'
+                echo 'Checking out code from repository...'
+                checkout scm
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Python dependencies...'
                 sh '''
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install -r requirements.txt
+                    python3 -m pip install --upgrade pip
+                    pip3 install -r requirements.txt
+                    playwright install chromium
                 '''
             }
         }
         
-        stage('Deploy Application') {
+        stage('Download Workflow') {
             steps {
-                echo 'Deploying application...'
-                // Your deployment steps here
-                sh './deploy.sh'
-            }
-        }
-        
-        stage('Wait for Application') {
-            steps {
-                echo 'Waiting for application to be ready...'
+                echo "Downloading workflow from ${params.WORKFLOW_JSON_URL}"
                 sh '''
-                    # Wait for app to be healthy
-                    for i in {1..30}; do
-                        if curl -f http://your-app.com/health; then
-                            echo "Application is ready!"
-                            break
-                        fi
-                        echo "Waiting... ($i/30)"
-                        sleep 10
-                    done
+                    curl -f -o workflow.json "${WORKFLOW_JSON_URL}"
+                    echo "Workflow downloaded successfully"
+                    echo "Workflow content:"
+                    cat workflow.json | head -20
                 '''
             }
         }
         
-        stage('Run Automated Tests') {
+        stage('Setup Environment') {
             steps {
-                echo 'Running RB-BOT tests...'
+                echo 'Setting up environment variables...'
                 sh '''
-                    source venv/bin/activate
-                    
-                    # Update config with credentials
-                    cat > data/autonomous.json <<EOF
-{
-  "base_url": "https://your-app.com/login",
-  "credentials": {
-    "username": "${APP_USERNAME}",
-    "password": "${APP_PASSWORD}"
-  },
-  "openai_api_key": "${OPENAI_API_KEY}"
-}
-EOF
-                    
-                    # Run recorded workflows
-                    python3 replay_workflow.py login_flow || true
-                    python3 replay_workflow.py checkout_flow || true
-                    python3 replay_workflow.py user_management || true
-                    
-                    # Or run autonomous mode
-                    # python3 autonomous_runner.py || true
+                    echo "OPENAI_API_KEY=${OPENAI_API_KEY}" > .env
+                    echo "BROWSER=chromium" >> .env
+                    echo "HEADLESS=true" >> .env
+                    echo "TIMEOUT=10000" >> .env
+                    echo "Environment configured"
                 '''
             }
         }
         
-        stage('Generate Reports') {
+        stage('Execute Bot') {
             steps {
-                echo 'Generating test reports...'
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'reports',
-                    reportFiles: 'report.html',
-                    reportName: 'RB-BOT Test Report',
-                    reportTitles: 'Automated Test Results'
-                ])
+                echo 'Executing RB-BOT with workflow...'
+                sh '''
+                    python3 chrome_recording_runner.py workflow.json "${CALLBACK_URL}"
+                '''
             }
         }
         
-        stage('Check Results') {
+        stage('Upload Results') {
             steps {
-                script {
-                    // Parse results and fail if critical issues found
-                    def report = readJSON file: 'reports/autonomous_report.json'
-                    def securityIssues = 0
+                echo "Uploading results to ${params.CALLBACK_URL}"
+                sh '''
+                    RESULT_FILE=$(ls reports/*_results.json 2>/dev/null | head -1)
                     
-                    report.test_reports.each { test ->
-                        securityIssues += test.summary.security_issues
-                    }
-                    
-                    echo "Total security issues found: ${securityIssues}"
-                    
-                    if (securityIssues > 10) {
-                        error("Too many security issues found: ${securityIssues}")
-                    }
-                }
+                    if [ -f "$RESULT_FILE" ]; then
+                        echo "Found result file: $RESULT_FILE"
+                        
+                        # Add workflow_id to the report
+                        jq --arg wid "${WORKFLOW_ID}" '. + {workflow_id: $wid}' "$RESULT_FILE" > /tmp/report_with_id.json
+                        
+                        # Send to callback URL
+                        curl -X POST "${CALLBACK_URL}" \
+                             -H "Content-Type: application/json" \
+                             -d @/tmp/report_with_id.json \
+                             -w "\\nHTTP Status: %{http_code}\\n"
+                        
+                        echo "Results uploaded successfully"
+                    else
+                        echo "ERROR: No results file found in reports/"
+                        ls -la reports/ || echo "Reports directory not found"
+                        exit 1
+                    fi
+                '''
             }
         }
     }
     
     post {
         always {
-            echo 'Archiving test results...'
+            echo 'Archiving artifacts...'
             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
-            archiveArtifacts artifacts: 'reports/token_usage.json', allowEmptyArchive: true
+            
+            echo 'Cleaning workspace...'
+            cleanWs()
         }
-        
         success {
-            echo 'Tests passed! Sending notification...'
-            emailext (
-                subject: "✅ Tests PASSED - Build #${BUILD_NUMBER}",
-                body: """
-                    <h2>RB-BOT Test Results - PASSED</h2>
-                    <p>Build: #${BUILD_NUMBER}</p>
-                    <p>All automated tests completed successfully!</p>
-                    <p><a href="${BUILD_URL}RB-BOT_Test_Report/">View Full Report</a></p>
-                """,
-                to: 'client@example.com, team@example.com',
-                mimeType: 'text/html'
-            )
+            echo '✅ Bot execution completed successfully!'
         }
-        
         failure {
-            echo 'Tests failed! Sending notification...'
-            emailext (
-                subject: "❌ Tests FAILED - Build #${BUILD_NUMBER}",
-                body: """
-                    <h2>RB-BOT Test Results - FAILED</h2>
-                    <p>Build: #${BUILD_NUMBER}</p>
-                    <p>Some tests failed or security issues detected.</p>
-                    <p><a href="${BUILD_URL}RB-BOT_Test_Report/">View Full Report</a></p>
-                    <p><a href="${BUILD_URL}console">View Console Output</a></p>
-                """,
-                to: 'client@example.com, team@example.com',
-                mimeType: 'text/html'
-            )
+            echo '❌ Bot execution failed!'
         }
     }
 }

@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.local.get(['authToken', 'user', 'isRecording', 'sessionId', 'recordingTab', 'workflowName'], (result) => {
     if (result.authToken) {
       showRecorder(result.user);
-      
+
       if (result.isRecording) {
         isRecording = true;
         sessionId = result.sessionId;
         recordingTab = result.recordingTab;
-        
+
         if (result.workflowName) {
           document.getElementById('workflowNameInput').value = result.workflowName;
         }
-        
+
         updateUI();
       }
     } else {
@@ -54,40 +54,40 @@ function login() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password: password })
   })
-  .then(response => {
-    if (!response.ok) throw new Error('Invalid credentials');
-    return response.json();
-  })
-  .then(data => {
-    const tokenParts = data.access.split('.');
-    const payload = JSON.parse(atob(tokenParts[1]));
-    
-    console.log('JWT Token Decoded:', payload);
-    
-    const user = { email: email, userId: payload.user_id };
-    chrome.storage.local.set({ 
-      authToken: data.access,
-      refreshToken: data.refresh,
-      user: user 
-    }, () => showRecorder(user));
-  })
-  .catch(error => alert('Login failed: ' + error.message));
+    .then(response => {
+      if (!response.ok) throw new Error('Invalid credentials');
+      return response.json();
+    })
+    .then(data => {
+      const tokenParts = data.access.split('.');
+      const payload = JSON.parse(atob(tokenParts[1]));
+
+      console.log('JWT Token Decoded:', payload);
+
+      const user = { email: email, userId: payload.user_id };
+      chrome.storage.local.set({
+        authToken: data.access,
+        refreshToken: data.refresh,
+        user: user
+      }, () => showRecorder(user));
+    })
+    .catch(error => alert('Login failed: ' + error.message));
 }
 
 async function startRecording() {
   const workflowName = document.getElementById('workflowNameInput').value || 'Untitled Workflow';
   sessionId = 'session_' + Date.now();
-  
+
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   recordingTab = tab.id;
-  
-  chrome.storage.local.set({ 
-    isRecording: true, 
-    sessionId: sessionId, 
+
+  chrome.storage.local.set({
+    isRecording: true,
+    sessionId: sessionId,
     recordingTab: tab.id,
     workflowName: workflowName
   });
-  
+
   try {
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -97,9 +97,9 @@ async function startRecording() {
         window.rbBotSessionId = sid;
         window.rbBotInputTimers = {};
         window.rbBotLastClick = null;
-        
+
         console.log('RB-BOT: Recording started!');
-        
+
         const indicator = document.createElement('div');
         indicator.id = 'rb-bot-indicator';
         indicator.style.cssText = `
@@ -112,8 +112,7 @@ async function startRecording() {
         `;
         indicator.innerHTML = 'Recording...';
         document.body.appendChild(indicator);
-        
-        // Smart selector function
+
         function getSmartSelector(element) {
           if (element.id) return '#' + element.id;
           if (element.name) return '[name="' + element.name + '"]';
@@ -130,22 +129,22 @@ async function startRecording() {
           }
           return element.tagName.toLowerCase();
         }
-        
-        document.addEventListener('click', function(e) {
+
+        document.addEventListener('click', function (e) {
           if (!window.rbBotRecording) return;
-          
+
           const target = e.target;
           const selector = getSmartSelector(target);
           const clickKey = selector + '_' + (target.textContent || '').substring(0, 20);
           const now = Date.now();
-          
+
           if (window.rbBotLastClick && window.rbBotLastClick.key === clickKey && (now - window.rbBotLastClick.time) < 300) {
             console.log('Skipped duplicate click:', clickKey);
             return;
           }
-          
+
           window.rbBotLastClick = { key: clickKey, time: now };
-          
+
           const action = {
             type: 'click',
             selector: selector,
@@ -153,24 +152,24 @@ async function startRecording() {
             timestamp: now,
             url: window.location.href
           };
-          
+
           window.rbBotActions.push(action);
           console.log('Recorded click:', action);
-          
+
           const ind = document.getElementById('rb-bot-indicator');
           if (ind) ind.innerHTML = 'Recording... (' + window.rbBotActions.length + ')';
         }, { capture: true, passive: true });
-        
-        document.addEventListener('input', function(e) {
+
+        document.addEventListener('input', function (e) {
           if (!window.rbBotRecording) return;
-          
+
           const selector = getSmartSelector(e.target);
-          
+
           if (window.rbBotInputTimers[selector]) clearTimeout(window.rbBotInputTimers[selector]);
-          
+
           window.rbBotInputTimers[selector] = setTimeout(() => {
             window.rbBotActions = window.rbBotActions.filter(a => !(a.type === 'fill' && a.selector === selector));
-            
+
             const action = {
               type: 'fill',
               selector: selector,
@@ -178,20 +177,20 @@ async function startRecording() {
               timestamp: Date.now(),
               url: window.location.href
             };
-            
+
             window.rbBotActions.push(action);
             console.log('Recorded input:', action);
-            
+
             const ind = document.getElementById('rb-bot-indicator');
             if (ind) ind.innerHTML = 'Recording... (' + window.rbBotActions.length + ')';
           }, 1000);
         }, true);
-        
+
         console.log('Recording active!');
       },
       args: [sessionId]
     });
-    
+
     console.log('Recording started');
     window.close();
   } catch (e) {
@@ -201,7 +200,7 @@ async function startRecording() {
 
 async function stopRecording() {
   const workflowName = document.getElementById('workflowNameInput').value || 'Untitled Workflow';
-  
+
   try {
     const results = await chrome.scripting.executeScript({
       target: { tabId: recordingTab },
@@ -213,18 +212,18 @@ async function stopRecording() {
         return window.rbBotActions || [];
       }
     });
-    
+
     const actions = results[0]?.result || [];
     console.log('Retrieved', actions.length, 'actions');
-    
+
     chrome.storage.local.set({ isRecording: false, sessionId: null, recordingTab: null, workflowName: null });
-    
+
     isRecording = false;
     updateUI();
-    
+
     document.getElementById('status').textContent = `Recorded ${actions.length} actions`;
     document.getElementById('actionCount').textContent = `Actions: ${actions.length}`;
-    
+
     if (actions.length > 0) {
       const recording = {
         workflowName: workflowName,
@@ -233,25 +232,40 @@ async function stopRecording() {
         recordedAt: new Date().toISOString(),
         actionCount: actions.length
       };
-      
-      chrome.storage.local.get(['recordings'], (result) => {
+
+      chrome.storage.local.get(['recordings', 'authToken'], async (result) => {
         const recordings = result.recordings || [];
         recordings.push(recording);
-        
-        chrome.storage.local.set({ recordings: recordings }, () => {
-          console.log('Recording saved locally:', recording);
-          document.getElementById('status').textContent = `Saved locally: ${actions.length} actions`;
-          
-          const blob = new Blob([JSON.stringify(recording, null, 2)], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `${workflowName.replace(/\s+/g, '_')}_${sessionId}.json`;
-          a.click();
-          URL.revokeObjectURL(url);
-          
-          console.log('All recordings:', recordings);
-        });
+        chrome.storage.local.set({ recordings: recordings });
+
+        if (result.authToken) {
+          try {
+            document.getElementById('status').textContent = 'Uploading to server...';
+
+            const response = await fetch('http://172.17.84.253:8000/api/v1/workflows/save/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${result.authToken}`
+              },
+              body: JSON.stringify(recording)
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              document.getElementById('status').textContent = `Saved! ID: ${data.workflow_id || data.id}`;
+              console.log('Workflow saved:', data);
+            } else {
+              document.getElementById('status').textContent = `Upload failed: ${response.status}`;
+              downloadJSON(recording);
+            }
+          } catch (error) {
+            document.getElementById('status').textContent = `Error: ${error.message}`;
+            downloadJSON(recording);
+          }
+        } else {
+          downloadJSON(recording);
+        }
       });
     } else {
       document.getElementById('status').textContent = 'No actions recorded';
@@ -259,6 +273,17 @@ async function stopRecording() {
   } catch (e) {
     alert('Error: ' + e.message);
   }
+}
+
+function downloadJSON(recording) {
+  const blob = new Blob([JSON.stringify(recording, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${recording.workflowName.replace(/\s+/g, '_')}_${recording.sessionId}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  document.getElementById('status').textContent = 'Downloaded locally';
 }
 
 function updateUI() {
@@ -286,10 +311,10 @@ setInterval(async () => {
         target: { tabId: recordingTab },
         func: () => window.rbBotActions ? window.rbBotActions.length : 0
       });
-      
+
       if (results && results[0]) {
         document.getElementById('actionCount').textContent = `Actions: ${results[0].result}`;
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 }, 1000);

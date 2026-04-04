@@ -4,6 +4,7 @@ Chrome Recording Runner - Execute Chrome extension recordings with security test
 """
 import json
 import sys
+import os
 from pathlib import Path
 from core import browser
 from core.logger import log
@@ -13,13 +14,14 @@ from engine.ai_testgen import generate_security_testcases
 from engine.token_tracker import print_summary, save_session
 from config.settings import OPENAI_API_KEY
 from datetime import datetime
+import requests
 
 def load_chrome_recording(recording_file):
     """Load Chrome extension recording"""
     with open(recording_file, 'r') as f:
         return json.load(f)
 
-def execute_chrome_recording(recording_file):
+def execute_chrome_recording(recording_file, callback_url=None):
     """Execute Chrome extension recording with security testing"""
     
     print("="*70)
@@ -27,10 +29,14 @@ def execute_chrome_recording(recording_file):
     print("="*70)
     
     recording = load_chrome_recording(recording_file)
+    workflow_id = os.getenv('WORKFLOW_ID', 'N/A')
     
     print(f"\nWorkflow: {recording.get('workflowName', 'Untitled')}")
+    print(f"Workflow ID: {workflow_id}")
     print(f"Actions: {recording.get('actionCount', 0)}")
     print(f"Recorded: {recording.get('recordedAt', 'N/A')}")
+    if callback_url:
+        print(f"Callback URL: {callback_url}")
     print("-"*70)
     
     actions = recording.get('actions', [])
@@ -48,8 +54,8 @@ def execute_chrome_recording(recording_file):
     
     try:
         print(f"\nNavigating to: {base_url}")
-        page.goto(base_url, wait_until='networkidle', timeout=30000)
-        page.wait_for_timeout(2000)
+        page.goto(base_url, wait_until='domcontentloaded', timeout=60000)
+        page.wait_for_timeout(3000)
         
         print("\n"+"="*70)
         print("🎬 EXECUTING RECORDED WORKFLOW")
@@ -236,8 +242,6 @@ def execute_chrome_recording(recording_file):
         if OPENAI_API_KEY and len(security_findings) > 0:
             try:
                 print(f"\n  Generating test cases for {len(security_findings)} security issues...")
-                
-                # Generate test cases based on security findings
                 feature_type = recording.get('workflowName', 'workflow')
                 ai_testcases = generate_security_testcases(
                     url=base_url,
@@ -249,7 +253,6 @@ def execute_chrome_recording(recording_file):
                 print(f"  ⚠️  AI test generation failed: {e}")
         elif not OPENAI_API_KEY:
             print("\n  ⚠️  OpenAI API key not configured. Skipping AI test generation.")
-            print("     Add your API key to data/input.json to enable this feature.")
         else:
             print("\n  ℹ️  No security issues found. Skipping AI test generation.")
         
@@ -307,6 +310,36 @@ def execute_chrome_recording(recording_file):
             print_summary()
             save_session()
         
+        if callback_url:
+            try:
+                print("\n" + "="*70)
+                print("📤 SENDING REPORT TO API")
+                print("="*70)
+                print(f"\n  Callback URL: {callback_url}")
+                
+                payload = {
+                    'workflow_id': workflow_id,
+                    'status': 'completed' if failed == 0 else 'failed',
+                    'report': report_data
+                }
+                
+                response = requests.post(
+                    callback_url,
+                    json=payload,
+                    timeout=30,
+                    headers={'Content-Type': 'application/json'}
+                )
+                
+                print(f"\n  Response Status: {response.status_code}")
+                if response.status_code == 200:
+                    print("  ✅ Report sent successfully!")
+                else:
+                    print(f"  ⚠️  API returned: {response.text[:200]}")
+                    
+            except Exception as e:
+                print(f"\n  ❌ Failed to send report to API: {str(e)}")
+                print("     Report saved locally, continuing...")
+        
         print("\n" + "="*70)
         print("✅ TESTING COMPLETE!")
         print("="*70)
@@ -314,7 +347,6 @@ def execute_chrome_recording(recording_file):
         
         if len(ai_testcases) > 0:
             print(f"\n  💡 {len(ai_testcases)} AI-generated test cases included in report")
-            print(f"     These provide step-by-step fixes for security issues")
         
         return failed == 0
     
@@ -324,16 +356,18 @@ def execute_chrome_recording(recording_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python chrome_recording_runner.py <recording.json>")
+        print("Usage: python chrome_recording_runner.py <recording.json> [callback_url]")
         print("\nExample:")
-        print("  python chrome_recording_runner.py local-login_session_1775269139930.json")
+        print("  python chrome_recording_runner.py workflow.json")
+        print("  python chrome_recording_runner.py workflow.json https://api.example.com/callback")
         sys.exit(1)
     
     recording_file = sys.argv[1]
+    callback_url = sys.argv[2] if len(sys.argv) > 2 else os.getenv('CALLBACK_URL')
     
     if not Path(recording_file).exists():
         print(f"Error: File not found: {recording_file}")
         sys.exit(1)
     
-    success = execute_chrome_recording(recording_file)
+    success = execute_chrome_recording(recording_file, callback_url)
     sys.exit(0 if success else 1)

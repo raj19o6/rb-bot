@@ -316,11 +316,16 @@ def execute_chrome_recording(recording_file, callback_url=None):
                 print("📤 SENDING REPORT TO API")
                 print("="*70)
                 print(f"\n  Callback URL: {callback_url}")
-                
+
+                report_html_content = ''
+                if html_path and Path(html_path).exists():
+                    report_html_content = Path(html_path).read_text(encoding='utf-8')
+
                 payload = {
                     'workflow_id': workflow_id,
                     'status': 'completed' if failed == 0 else 'failed',
-                    'report': report_data
+                    'report': report_data,
+                    'report_html': report_html_content
                 }
                 
                 response = requests.post(

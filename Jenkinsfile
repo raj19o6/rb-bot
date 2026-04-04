@@ -29,9 +29,17 @@ pipeline {
             steps {
                 echo 'Installing Python dependencies...'
                 sh '''
-                    python3 -m pip install --upgrade pip
-                    pip3 install -r requirements.txt
-                    playwright install chromium
+                    # Check if pip is installed, if not install it
+                    if ! python3 -m pip --version > /dev/null 2>&1; then
+                        echo "pip not found, installing..."
+                        curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+                        python3 get-pip.py --user
+                        rm get-pip.py
+                    fi
+                    
+                    python3 -m pip install --upgrade pip --user
+                    python3 -m pip install -r requirements.txt --user
+                    python3 -m playwright install chromium
                 '''
             }
         }

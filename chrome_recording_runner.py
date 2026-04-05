@@ -5,6 +5,8 @@ Chrome Recording Runner - Execute Chrome extension recordings with security test
 import json
 import sys
 import os
+import random
+import time
 from pathlib import Path
 from core import browser
 from core.logger import log
@@ -55,7 +57,12 @@ def execute_chrome_recording(recording_file, callback_url=None):
     try:
         print(f"\nNavigating to: {base_url}")
         page.goto(base_url, wait_until='domcontentloaded', timeout=60000)
-        page.wait_for_timeout(3000)
+        # Human-like: random delay after page load
+        page.wait_for_timeout(random.randint(2000, 4000))
+        # Human-like: random mouse movement
+        page.mouse.move(random.randint(100, 800), random.randint(100, 600))
+        page.mouse.move(random.randint(100, 800), random.randint(100, 600))
+        page.wait_for_timeout(random.randint(500, 1500))
         
         print("\n"+"="*70)
         print("🎬 EXECUTING RECORDED WORKFLOW")
@@ -108,6 +115,17 @@ def execute_chrome_recording(recording_file, callback_url=None):
                         status = 'fail'
                         error = 'Element not visible'
                     else:
+                        # Human-like: move mouse to element before clicking
+                        try:
+                            box = locator.bounding_box()
+                            if box:
+                                page.mouse.move(
+                                    box['x'] + box['width'] / 2 + random.randint(-5, 5),
+                                    box['y'] + box['height'] / 2 + random.randint(-5, 5)
+                                )
+                                page.wait_for_timeout(random.randint(80, 300))
+                        except:
+                            pass
                         text_lower = text.lower()
                         is_nav = 'sign in' in text_lower or 'login' in text_lower
                         
@@ -136,7 +154,10 @@ def execute_chrome_recording(recording_file, callback_url=None):
                         status = 'fail'
                         error = 'Element not visible'
                     else:
-                        locator.fill(value, timeout=5000)
+                        # Human-like: type character by character instead of fill
+                        locator.click(timeout=5000)
+                        page.wait_for_timeout(random.randint(100, 300))
+                        locator.type(value, delay=random.randint(50, 150))
                         
                         if 'password' in selector.lower():
                             page.wait_for_timeout(1000)

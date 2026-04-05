@@ -11,6 +11,9 @@ from pathlib import Path
 from core import browser
 from core.logger import log
 from security import headers, xss, sqli
+from security import advanced as advanced_security
+from engine import qa_checks
+from engine.grc_report import generate_grc_report, save_grc_report
 from reports import html_reporter
 from engine.ai_testgen import generate_security_testcases
 from engine.token_tracker import print_summary, save_session
@@ -251,6 +254,24 @@ def execute_chrome_recording(recording_file, callback_url=None):
             print(f"  Found {len(sqli_findings)} SQLi issues")
         except Exception as e:
             print(f"  ⚠️  SQLi check failed: {e}")
+
+        print("\n  Running advanced security checks...")
+        try:
+            adv_findings = advanced_security.run_all(page)
+            security_findings.extend(adv_findings)
+            print(f"  Found {len(adv_findings)} advanced security issues")
+        except Exception as e:
+            print(f"  ⚠️  Advanced security checks failed: {e}")
+
+        print("\n"+"="*70)
+        print("🧪 RUNNING QA CHECKS")
+        print("="*70)
+        qa_findings = []
+        try:
+            qa_findings = qa_checks.run_all(page)
+            print(f"  Found {len(qa_findings)} QA issues")
+        except Exception as e:
+            print(f"  ⚠️  QA checks failed: {e}")
         
         passed = sum(1 for r in step_results if r['status'] == 'pass')
         failed = sum(1 for r in step_results if r['status'] == 'fail')
@@ -285,6 +306,7 @@ def execute_chrome_recording(recording_file, callback_url=None):
         print(f"Failed: {failed}")
         print(f"Security Issues: {len(security_findings)}")
         print(f"AI Test Cases: {len(ai_testcases)}")
+        print(f"QA Issues: {len(qa_findings)}")
         
         if len(step_results) > 0:
             success_rate = (passed / len(step_results)) * 100
@@ -308,6 +330,7 @@ def execute_chrome_recording(recording_file, callback_url=None):
                 'low': [f for f in security_findings if f.get('severity') == 'low']
             },
             'security_testcases': ai_testcases,
+            'qa_findings': qa_findings,
             'elements': [],
             'summary': {
                 'total': len(step_results),
@@ -326,6 +349,18 @@ def execute_chrome_recording(recording_file, callback_url=None):
         
         html_path = html_reporter.generate([report_data], [])
         print(f"  HTML Report: {html_path}")
+
+        # GRC Report
+        print("\n  Generating GRC Report...")
+        try:
+            all_findings_for_grc = security_findings + qa_findings
+            grc = generate_grc_report(all_findings_for_grc, recording.get('workflowName', 'Workflow'), base_url)
+            grc_path = save_grc_report(grc, recording.get('workflowName', 'workflow'))
+            print(f"  GRC Report: {grc_path}")
+            print(f"  Risk Level: {grc['risk_level']} | Score: {grc['risk_score']}/100")
+        except Exception as e:
+            print(f"  ⚠️  GRC report failed: {e}")
+            grc_path = None
         
         if GROQ_API_KEY:
             print_summary()

@@ -4,7 +4,9 @@ from datetime import datetime
 REPORTS_DIR = Path(__file__).parent
 
 
-def generate(all_reports: list[dict], surf_reports: list[dict] = None):
+def generate(all_reports: list[dict], surf_reports: list[dict] = None,
+             qa_findings: list[dict] = None, grc_data: dict = None,
+             crawled_routes: list[str] = None, screenshots: list[str] = None):
 
     def badge(status):
         color = "#22c55e" if status == "pass" else "#ef4444"
@@ -117,6 +119,156 @@ def generate(all_reports: list[dict], surf_reports: list[dict] = None):
           </tr></thead>
           <tbody>{rows}</tbody>
         </table>"""
+
+    def build_qa_section(findings):
+        if not findings:
+            return ""
+        cat_colors = {
+            "Performance": "#06b6d4", "Accessibility": "#a78bfa",
+            "QA – Negative Testing": "#f97316", "QA – Boundary Testing": "#eab308",
+            "QA – Mobile": "#22c55e", "QA": "#94a3b8",
+        }
+        rows = ""
+        for f in findings:
+            if f.get("severity") == "info":
+                # render performance metrics as a special info row
+                rows += f"""
+                <tr style="background:#0c1a2e">
+                  <td style="padding:8px 12px"><span style="background:#334155;color:#94a3b8;padding:2px 8px;border-radius:10px;font-size:11px">INFO</span></td>
+                  <td style="padding:8px 12px;color:#7dd3fc;font-size:12px">{f.get('type','').replace('_',' ').title()}</td>
+                  <td style="padding:8px 12px;color:#64748b;font-size:11px">{f.get('category','')}</td>
+                  <td style="padding:8px 12px;color:#94a3b8;font-size:12px">
+                    Load: {f.get('load_time_ms','-')}ms &nbsp;·&nbsp;
+                    FCP: {f.get('fcp_ms','-')}ms &nbsp;·&nbsp;
+                    DOM: {f.get('dom_content_loaded_ms','-')}ms &nbsp;·&nbsp;
+                    Size: {f.get('transfer_size_kb','-')}KB
+                  </td>
+                </tr>"""
+                continue
+            sev = f.get("severity", "low")
+            sev_color = {"critical": "#7c3aed", "high": "#ef4444", "medium": "#f97316", "low": "#eab308"}.get(sev, "#64748b")
+            cat = f.get("category", "QA")
+            cat_color = cat_colors.get(cat, "#94a3b8")
+            wcag = f'<br><span style="color:#64748b;font-size:10px">{f["wcag"]}</span>' if f.get("wcag") else ""
+            rows += f"""
+            <tr>
+              <td style="padding:8px 12px"><span style="background:{sev_color};color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">{sev.upper()}</span></td>
+              <td style="padding:8px 12px;color:#cbd5e1;font-size:12px">{f.get('type','').replace('_',' ').title()}</td>
+              <td style="padding:8px 12px"><span style="color:{cat_color};font-size:11px">{cat}</span></td>
+              <td style="padding:8px 12px;color:#94a3b8;font-size:12px">{f.get('reason','')}{wcag}</td>
+            </tr>"""
+        return f"""
+        <h3 style="color:#06b6d4;margin:28px 0 12px;display:flex;align-items:center;gap:8px">
+          <i data-lucide="activity" style="width:16px;height:16px;stroke:#06b6d4"></i>
+          QA Checks ({len([f for f in findings if f.get('severity') != 'info'])} findings)
+        </h3>
+        <table style="width:100%;border-collapse:collapse;background:#0f172a;border-radius:8px;overflow:hidden">
+          <thead><tr style="background:#1e293b;color:#94a3b8;font-size:12px">
+            <th style="padding:9px 12px;text-align:left">Severity</th>
+            <th style="padding:9px 12px;text-align:left">Check</th>
+            <th style="padding:9px 12px;text-align:left">Category</th>
+            <th style="padding:9px 12px;text-align:left">Detail</th>
+          </tr></thead>
+          <tbody>{rows}</tbody>
+        </table>"""
+
+    def build_grc_section(grc):
+        if not grc or not grc.get("findings"):
+            return ""
+        risk_colors = {"CRITICAL": "#7c3aed", "HIGH": "#ef4444", "MEDIUM": "#f97316", "LOW": "#22c55e"}
+        sev_colors  = {"critical": "#7c3aed", "high": "#ef4444", "medium": "#f97316", "low": "#eab308", "info": "#64748b"}
+        risk_color  = risk_colors.get(grc.get("risk_level", "MEDIUM"), "#64748b")
+
+        compliance_html = ""
+        for fw, data in grc.get("compliance", {}).items():
+            color = "#22c55e" if data["status"] == "PASS" else "#ef4444"
+            items_html = "".join(f'<li style="color:#94a3b8;font-size:10px;margin:2px 0">{i}</li>' for i in data.get("items", [])[:4])
+            compliance_html += f"""
+            <div style="background:#0f172a;border-radius:8px;padding:12px;border-top:3px solid {color}">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="color:#f1f5f9;font-weight:600;font-size:12px">{fw.upper().replace('_',' ')}</span>
+                <span style="background:{color};color:#fff;padding:1px 8px;border-radius:10px;font-size:10px;font-weight:700">{data['status']}</span>
+              </div>
+              <div style="color:#64748b;font-size:10px;margin-top:3px">{data['violations']} violation(s)</div>
+              <ul style="margin-top:4px;padding-left:12px">{items_html}</ul>
+            </div>"""
+
+        finding_rows = ""
+        for f in grc["findings"]:
+            if f.get("severity") == "info":
+                continue
+            sev = f.get("severity", "medium")
+            color = sev_colors.get(sev, "#64748b")
+            finding_rows += f"""
+            <tr>
+              <td style="padding:7px 12px"><span style="background:{color};color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">{sev.upper()}</span></td>
+              <td style="padding:7px 12px;color:#cbd5e1;font-size:12px">{f.get('type','').replace('_',' ').title()}</td>
+              <td style="padding:7px 12px;color:#94a3b8;font-size:11px">{f.get('owasp','')}</td>
+              <td style="padding:7px 12px;color:#94a3b8;font-size:11px">{f.get('iso27001','')}</td>
+              <td style="padding:7px 12px;color:#f1f5f9;font-size:11px;font-weight:600">{f.get('cvss','')}</td>
+              <td style="padding:7px 12px;color:#fbbf24;font-size:11px">{f.get('remediation_sla','')}</td>
+            </tr>"""
+
+        return f"""
+        <h3 style="color:#a78bfa;margin:28px 0 12px;display:flex;align-items:center;gap:8px">
+          <i data-lucide="shield-check" style="width:16px;height:16px;stroke:#a78bfa"></i>
+          GRC / Compliance &nbsp;
+          <span style="background:{risk_color};color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700">{grc.get('risk_level','')}</span>
+          <span style="color:#64748b;font-size:12px">Score: {grc.get('risk_score',0)}/100</span>
+        </h3>
+        <p style="color:#94a3b8;font-size:12px;margin-bottom:14px;line-height:1.6">{grc.get('executive_summary','')}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px">
+          {compliance_html}
+        </div>
+        <table style="width:100%;border-collapse:collapse;background:#0f172a;border-radius:8px;overflow:hidden">
+          <thead><tr style="background:#1e293b;color:#94a3b8;font-size:12px">
+            <th style="padding:9px 12px;text-align:left">Severity</th>
+            <th style="padding:9px 12px;text-align:left">Finding</th>
+            <th style="padding:9px 12px;text-align:left">OWASP</th>
+            <th style="padding:9px 12px;text-align:left">ISO 27001</th>
+            <th style="padding:9px 12px;text-align:left">CVSS</th>
+            <th style="padding:9px 12px;text-align:left">SLA</th>
+          </tr></thead>
+          <tbody>{finding_rows}</tbody>
+        </table>"""
+
+    def build_crawled_routes(routes):
+        if not routes:
+            return ""
+        items = "".join(
+            f'<div style="display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid #1e293b">'
+            f'<i data-lucide="link" style="width:13px;height:13px;stroke:#7dd3fc;flex-shrink:0"></i>'
+            f'<a href="{r}" target="_blank" style="color:#7dd3fc;font-size:12px;text-decoration:none;word-break:break-all">{r}</a>'
+            f'</div>'
+            for r in routes
+        )
+        return f"""
+        <section style="background:#1e293b;border-radius:12px;padding:28px;margin-bottom:32px">
+          <h2 style="margin:0 0 16px;color:#f1f5f9;font-size:18px;display:flex;align-items:center;gap:8px">
+            <i data-lucide="map" style="width:17px;height:17px;stroke:#7dd3fc"></i>
+            Discovered Routes ({len(routes)})
+          </h2>
+          <div style="background:#0f172a;border-radius:8px;overflow:hidden">{items}</div>
+        </section>"""
+
+    def build_screenshots(shots):
+        if not shots:
+            return ""
+        cards = "".join(
+            f'<div style="background:#0f172a;border-radius:8px;overflow:hidden">'
+            f'<img src="{s}" style="width:100%;display:block;border-radius:8px" loading="lazy" onerror="this.parentElement.style.display=\'none\'">'
+            f'<div style="padding:6px 10px;color:#64748b;font-size:10px;word-break:break-all">{s}</div>'
+            f'</div>'
+            for s in shots
+        )
+        return f"""
+        <section style="background:#1e293b;border-radius:12px;padding:28px;margin-bottom:32px">
+          <h2 style="margin:0 0 16px;color:#f1f5f9;font-size:18px;display:flex;align-items:center;gap:8px">
+            <i data-lucide="image" style="width:17px;height:17px;stroke:#94a3b8"></i>
+            Screenshots ({len(shots)})
+          </h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">{cards}</div>
+        </section>"""
 
     surf_section = ""
     if surf_reports:
@@ -238,10 +390,22 @@ def generate(all_reports: list[dict], surf_reports: list[dict] = None):
               <p style="margin:4px 0 0;color:#64748b;font-size:13px">{ts}</p>
               {f'<a href="{route_url}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;color:#7dd3fc;font-size:11px;text-decoration:none">{route_url}</a>' if route_url else ''}
             </div>
-            <div style="display:flex;gap:16px;align-items:center">
-              <div style="text-align:center"><div style="font-size:24px;font-weight:700;color:#22c55e">{s["passed"]}</div><div style="font-size:11px;color:#64748b">PASSED</div></div>
-              <div style="text-align:center"><div style="font-size:24px;font-weight:700;color:#ef4444">{s["failed"]}</div><div style="font-size:11px;color:#64748b">FAILED</div></div>
-              <div style="text-align:center"><div style="font-size:24px;font-weight:700;color:#f97316">{s["security_issues"]}</div><div style="font-size:11px;color:#64748b">SEC ISSUES</div></div>
+            <div style="display:flex;gap:12px;align-items:center;flex-shrink:0">
+              <div style="display:inline-flex;align-items:center;gap:6px;background:#0f172a;border-radius:8px;padding:8px 14px">
+                <i data-lucide="check-circle" style="width:16px;height:16px;stroke:#22c55e;flex-shrink:0"></i>
+                <span style="font-size:18px;font-weight:700;color:#22c55e">{s["passed"]}</span>
+                <span style="font-size:11px;color:#64748b">PASSED</span>
+              </div>
+              <div style="display:inline-flex;align-items:center;gap:6px;background:#0f172a;border-radius:8px;padding:8px 14px">
+                <i data-lucide="x-circle" style="width:16px;height:16px;stroke:#ef4444;flex-shrink:0"></i>
+                <span style="font-size:18px;font-weight:700;color:#ef4444">{s["failed"]}</span>
+                <span style="font-size:11px;color:#64748b">FAILED</span>
+              </div>
+              <div style="display:inline-flex;align-items:center;gap:6px;background:#0f172a;border-radius:8px;padding:8px 14px">
+                <i data-lucide="shield-alert" style="width:16px;height:16px;stroke:#f97316;flex-shrink:0"></i>
+                <span style="font-size:18px;font-weight:700;color:#f97316">{s["security_issues"]}</span>
+                <span style="font-size:11px;color:#64748b">SEC ISSUES</span>
+              </div>
             </div>
           </div>
           <div style="margin:16px 0;background:#0f172a;border-radius:6px;height:8px;overflow:hidden">
@@ -286,7 +450,17 @@ def generate(all_reports: list[dict], surf_reports: list[dict] = None):
           {sec_section}
           {build_elements_table(elements)}
           {build_ai_testcases(ai_cases)}
+          {build_qa_section(report.get("qa_findings", []))}
+          {build_grc_section(report.get("grc", {}))}
+          {build_crawled_routes(report.get("crawled_routes", []))}
+          {build_screenshots(report.get("screenshots", []))}
         </section>"""
+
+    # top-level sections (passed via generate() args)
+    top_qa      = build_qa_section(qa_findings or [])
+    top_grc     = build_grc_section(grc_data or {})
+    top_routes  = build_crawled_routes(crawled_routes or [])
+    top_shots   = build_screenshots(screenshots or [])
 
     total_passed = sum(r["summary"]["passed"] for r in all_reports)
     total_failed = sum(r["summary"]["failed"] for r in all_reports)
@@ -333,7 +507,11 @@ def generate(all_reports: list[dict], surf_reports: list[dict] = None):
     </div>
   </header>
   {surf_section}
+  {top_routes}
   {sections}
+  {top_qa}
+  {top_grc}
+  {top_shots}
   <script>lucide.createIcons();</script>
 </body>
 </html>"""

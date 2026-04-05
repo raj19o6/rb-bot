@@ -5,7 +5,7 @@ pipeline {
         string(name: 'WORKFLOW_ID', defaultValue: '', description: 'Workflow ID from database')
         string(name: 'WORKFLOW_JSON_URL', defaultValue: '', description: 'URL to download workflow JSON')
         string(name: 'CALLBACK_URL', defaultValue: '', description: 'API endpoint to send results back')
-        password(name: 'GROQ_API_KEY', defaultValue: '', description: 'Groq API Key for AI test generation')
+        password(name: 'GROQ_API_KEY', defaultValue: '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', description: 'Groq API Key for AI test generation')
     }
     
     environment {
@@ -94,7 +94,10 @@ EOF
                     echo "BROWSER=chromium" >> .env
                     echo "HEADLESS=true" >> .env
                     echo "TIMEOUT=10000" >> .env
+                    echo "WORKFLOW_ID=${WORKFLOW_ID}" >> .env
+                    echo "CALLBACK_URL=${CALLBACK_URL}" >> .env
                     echo "Environment configured"
+                    cat .env | grep -v GROQ_API_KEY
                 '''
             }
         }
